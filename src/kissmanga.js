@@ -3,7 +3,7 @@ const cheerio = require("cheerio");
 const fs = require("fs");
 
 module.exports = {
-  async execute(baseUrl) {
+  async exec(baseUrl) {
     const folderName = $("head > title").text().replace("Read ", "").replace(" Online Free | KissManga", "").slice(0, 255);
     if (!fs.existsSync(`./${ folderName }`)) await fs.mkdirSync(`./${ folderName }`);
     for (let chapter = 1; chapter <= 199; chapter++) {
@@ -11,15 +11,15 @@ module.exports = {
       const $ = await cheerio.load(html);
       const pages = await $("#centerDivVideo");
       if (!fs.existsSync(`./${ folderName }/chapter${ chapter }`)) await fs.mkdirSync(`./${ folderName }/chapter${ chapter }`);
-      for (let page = 0; page < pages.length - 1; page++) {
+      for (let page = 1; page < pages.length; page++) {
         await axios({
           method: "get",
-          url: pages.children().eq(page).attr("src"),
+          url: pages.children().eq(page - 1).attr("src"),
           responseType: "stream"
         }).then(async (response) => {
-          await response.data.pipe(fs.createWriteStream(`./${ folderName }/chapter${ chapter }/${ page + 1 }.jpg`));
+          await response.data.pipe(fs.createWriteStream(`./${ folderName }/chapter${ chapter }/${ page }.jpg`));
           console.clear();
-          console.log(`Downloaded page ${ page + 1 }`)
+          console.log(`Downloaded page ${ page }`)
         }).catch((error) => console.log(error));
       }
     }

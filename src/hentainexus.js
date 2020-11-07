@@ -1,27 +1,53 @@
+const fs = require("fs");
 const axios = require("axios");
 const cheerio = require("cheerio");
-const fs = require("fs");
+const downloadImage = require("./downloadImage.js");
+const displayProgress = require("./displayProgress");
 
 module.exports = {
-  async execute(baseUrl) {
-    let html = await axios(`https://hentainexus.com/view/${ baseUrl }`).then((response) => response.data).catch((error) => console.log(error));
-    let $ = await cheerio.load(html);
-    const lastPage = parseInt(await $("table.view-page-details > tbody").children().eq(5).children().eq(1).text());
-    const folderName = `[${ await $("table.view-page-details > tbody").children().eq(0).children().eq(1).text().replace(/^\s+/g, "").replace(/\s+$/g, "") }] ${ await $("h1.title").text() }`
-    if (!fs.existsSync(`./${ folderName }`)) await fs.mkdirSync(`./${ folderName }`);
-    for (let page = 1; page <= lastPage; page++) {
-      html = await axios(`https://hentainexus.com/read/${ baseUrl }/${ page > 99 ? "" : "0" }${ page > 9 ? "" : "0" }${ page }`).then((response) => response.data).catch((error) => console.log(error));
-      $ = await cheerio.load(html);
-      await axios({
-        method: "get",
-        url: await $("#reader_image > img").attr("src"),
-        responseType: "stream"
-      }).then(async (response) => {
-        await response.data.pipe(fs.createWriteStream(`./${ folderName }/${ page }.jpg`));
-        console.clear();
-        console.log(`Downloaded page ${ page }`);
-      }).catch((error) => console.log(error));
+  async exec(number) {
+    const [lastPage, folderName] = await getInfo(number);
+    if (!folderName) return;
+
+    if (!fs.existsSync(`./${ folderName }`)) {
+      fs.mkdirSync(`./${ folderName }`);
     }
-    return folderName;
+
+    const promises = await downloadChapter(number, lastPage, folderName);
+
+    displayProgress.exec(promises);
+
+    return Promise.allSettled(promises).then(() => folderName);
   }
 };
+
+async function getInfo(number) {
+  const html = await axios(`https://hentainexus.com/view/${ number }`)
+    .then((response) => response.data)
+    .catch((error) => {
+      switch (error.response.status) {
+        case 404: process.stdout.write("Can't find the sauce!"); break;
+      }
+    });
+  const $ = await cheerio.load(html);
+
+  const lastPage = parseInt(await $("table.view-page-details > tbody").children().eq(5).children().eq(1).text());
+  const artist = await $("table.view-page-details > tbody").children().eq(0).children().eq(1).text().replace(/^\s+/g, "").replace(/\s+$/g, "");
+  const title = await $("h1.title").text();
+  const folderName = `[${ artist }] ${ title }`;
+
+  return [lastPage, folderName];
+}
+
+async function downloadChapter(number, lastPage, folderName) {
+  let promises = [];
+  for (let page = 1; page <= lastPage; page++) {
+    const html = await axios(`https://hentainexus.com/read/${ number }/${ page > 99 ? "" : "0" }${ page > 9 ? "" : "0" }${ page }`)
+      .then((response) => response.data)
+      .catch((error) => console.log(error));
+    const $ = await cheerio.load(html);
+    const imageUrl = await $("#reader_image > img").attr("src");
+    promises.push(downloadImage.exec(imageUrl, folderName, page));
+  }
+  return promises;
+}

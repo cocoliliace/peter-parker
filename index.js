@@ -1,14 +1,19 @@
 const makePdf = require("./src/makePdf.js");
-const baseUrl = process.argv[2];
-const optional = process.argv[3] ? process.argv[3] : "";
+const sauce = process.argv[2];
+const flag = process.argv[3] || "";
 
 const goWebGo = new Promise((resolve, reject) => {
   resolve(
-    (baseUrl.includes("hentai.cafe")) ? require("./src/hentaicafe.js").execute(baseUrl) :
-    (baseUrl.length === 4) ? require("./src/hentainexus.js").execute(baseUrl) :
-    (baseUrl.length === 6 || optional === "-g") ? require("./src/nhentai.js").execute(baseUrl) :
-    (baseUrl.includes("kissmanga")) ? require("./src/kissmanga.js").execute(baseUrl) :
+    (sauce.includes("hentai.cafe") || flag === "--cafe") ? require("./src/hentaicafe.js").exec(sauce) :
+    (flag === "--hn") ? require("./src/hentainexus.js").exec(sauce) :
+    (!isNaN(sauce) || flag === "-g") ? require("./src/nhentai.js").exec(sauce) :
+    (sauce.includes("imgur")) ? require("./src/imgur.js").exec(sauce) :
+    (sauce.includes("kissmanga")) ? require("./src/kissmanga.js").exec(sauce) :
     console.log("Invalid input")
   );
 });
-goWebGo.then((folderName) => makePdf.execute(folderName));
+
+goWebGo.then((folderName) => {
+  process.stdout.write("\n");
+  makePdf.exec(folderName);
+}).catch((error) => console.log(error));
