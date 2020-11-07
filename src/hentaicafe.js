@@ -1,8 +1,8 @@
 const fs = require("fs");
 const axios = require("axios");
 const cheerio = require("cheerio");
-const downloadImage = require("./downloadImage.js");
-const displayProgress = require("./displayProgress");
+const downloadImage = require("../scripts/downloadImage.js");
+const displayProgress = require("../scripts/displayProgress.js");
 
 module.exports = {
   async exec(sauce) {

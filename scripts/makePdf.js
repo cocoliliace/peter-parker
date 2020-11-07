@@ -21,7 +21,8 @@ module.exports = {
     }
     doc.end();
     removeDirectory(title);
-    console.log(`Saved ./responsibility/${ title }.pdf!`)
+    console.log(`Saved ./responsibility/${ title }.pdf!`);
+    console.log("Courtesy, your friendly neighbourhood Spider-Man")
   }
 };
 

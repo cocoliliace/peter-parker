@@ -1,6 +1,8 @@
-const makePdf = require("./src/makePdf.js");
+const makePdf = require("./scripts/makePdf.js");
 const sauce = process.argv[2];
 const flag = process.argv[3] || "";
+
+if (!sauce) return;
 
 const goWebGo = new Promise((resolve, reject) => {
   resolve(

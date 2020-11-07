@@ -1,8 +1,8 @@
 const fs = require("fs");
 const axios = require("axios");
 const cheerio = require("cheerio");
-const downloadImage = require("./downloadImage.js");
-const displayProgress = require("./displayProgress");
+const downloadImage = require("../scripts/downloadImage.js");
+const displayProgress = require("../scripts/displayProgress.js");
 
 module.exports = {
   async exec(number) {
@@ -32,9 +32,9 @@ module.exports = {
 
 async function getInfo($) {
   const lastPage = await $("#tags").children().eq(-2).children().text();
-  const artist = await $("#tags").children().eq(3).children().eq(0).children().eq(0).children().eq(0).text();
-  const title = await $("head > title").text().split(" » ")[0].replace("/", "");
-  const folderName = `[${ artist.replace(/\b[a-z]/g, (match) => match.toUpperCase()) }] ${ title }`;
+  const artist = $("#info > h1.title > span.before").text();
+  const title = await $("#info > h1.title > span.pretty").text();
+  const folderName = `${ artist }${ title }`;
 
   return [lastPage, folderName];
 }
