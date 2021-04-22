@@ -2,35 +2,30 @@ const fs = require("fs");
 const sizeOf = require("image-size");
 const PDFDocument = require("pdfkit");
 
-module.exports = {
-  async exec(title) {
-    if (!title) return;
+module.exports = async (title) => {
+  if (!title) return;
 
-    let doc = new PDFDocument({
-      autoFirstPage: false,
-      info: {
-        Title: title.replace(/\[(.+)\] /, ""),
-        Author: title.match(/\[(.+)\]/)[1] || "Unknown Author"
-      }
-    });
-    doc.pipe(fs.createWriteStream(`./responsibility/${ title }.pdf`));
-
-    const pages = fs.readdirSync(`./${ title }`).length;
-    for (let page = 1; page <= pages; page++) {
-      await addPage(doc, title, page);
+  const doc = new PDFDocument({
+    autoFirstPage: false,
+    info: {
+      Title: title.replace(/\[(.+)\] /, ""),
+      Author: title.match(/\[(.+)\]/)?.[1]
     }
-    doc.end();
-    removeDirectory(title);
-    console.log(`Saved ./responsibility/${ title }.pdf!`);
-    console.log("Courtesy, your friendly neighbourhood Spider-Man")
+  });
+  doc.pipe(fs.createWriteStream(`./responsibility/${ title }.pdf`));
+
+  const pages = fs.readdirSync(`./${ title }`).length;
+  for (let page = 1; page <= pages; page++) {
+    await addPage(doc, title, page);
   }
+  doc.end();
+  removeDirectory(title);
+  console.log(`Saved ./responsibility/${ title }.pdf!`);
+  console.log("Courtesy, your friendly neighbourhood Spider-Man");
 };
 
 function removeDirectory(title) {
-  const folder = fs.readdirSync(`./${ title }`);
-  folder.forEach((file) => {
-    fs.unlinkSync(`./${ title }` + "/" + file);
-  });
+  fs.readdirSync(`./${ title }`).forEach(file => fs.unlinkSync(`./${ title }` + "/" + file));
   fs.rmdirSync(`./${ title }`);
 }
 
