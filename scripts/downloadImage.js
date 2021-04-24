@@ -1,7 +1,9 @@
 const fs = require("fs");
 const https = require("https");
 
-module.exports = (imageUrl, folderName, page) => {
+module.exports = downloadImage;
+
+function downloadImage(imageUrl, folderName, page) {
 	return new Promise((resolve, reject) => {
 		const client = https.request(imageUrl, response => {
 			if (response.statusCode === 200 || response.statusCode === 204) {
@@ -11,7 +13,7 @@ module.exports = (imageUrl, folderName, page) => {
 				response.once("end", () => resolve(fs.writeFileSync(`./${ folderName }/${ page }.jpg`, Buffer.concat(data))));
 				response.once("error", error => reject(`Error: ${ error.message }`));
 			} else if (response.statusCode === 503) {
-				resolve(this(imageUrl, folderName, page));
+				resolve(downloadImage(imageUrl, folderName, page));
 			} else {
 				reject(`Error ${ response.statusCode }: ${ response.statusMessage }`);
 			}
@@ -20,4 +22,4 @@ module.exports = (imageUrl, folderName, page) => {
 		client.end();
 		client.once("error", reject);
 	});
-};
+}
