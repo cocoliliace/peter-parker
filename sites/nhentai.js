@@ -2,21 +2,19 @@ const fs = require("fs");
 const getPage = require("../scripts/getPage");
 const downloadImage = require("../scripts/downloadImage.js");
 const displayProgress = require("../scripts/displayProgress.js");
+const makePdf = require("../scripts/makePdf.js");
 
 module.exports = async number => {
 	const $ = await getPage(`https://nhentai.net/g/${ number }/`);
 
 	const [lastPage, folderName] = await getInfo($);
 
-	if (!fs.existsSync(`./${ folderName }`)) {
-		fs.mkdirSync(`./${ folderName }`);
-	}
-
 	const promises = downloadChapter($, lastPage, folderName);
 
 	displayProgress(promises);
 
-	return Promise.allSettled(promises).then(() => folderName);
+	await Promise.allSettled(promises);
+	return makePdf(folderName);
 };
 
 async function getInfo($) {
@@ -35,6 +33,10 @@ async function getInfo($) {
 }
 
 function downloadChapter($, lastPage, folderName) {
+	if (!fs.existsSync(`./${ folderName }`)) {
+		fs.mkdirSync(`./${ folderName }`);
+	}
+
 	let promises = [];
 	for (let page = 1; page <= lastPage; page++) {
 		const imageUrl = $(".thumbs").children().eq(page - 1).children().eq(0).children().eq(0).attr("data-src").replace("t.", "i.").replace("t.", ".");

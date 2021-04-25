@@ -12,6 +12,11 @@ node . 177013
 
 # To download g/4429 (don't actually download this)
 node . 4429 -g
+
+# To download Ishigami x Iino fancomics
+node . https://kissmanga.org/manga/tq922018
+# or
+node . tq922018 --kiss
 ```
 
 ## How to use?
@@ -21,6 +26,7 @@ SITE | INPUT | FLAG
 -|-|-
 HENTAICAFE | SITE REMOVED | --cafe
 HENTAINEXUS | SITE REMOVED | --hn
+KISSMANGA | <span>https://</span>kissmanga.org/manga/MANGA_NAME | -kiss
 NHENTAI | XXXXXX | -g
 
-Note: You can also use numbers to reference all of these site. The flags are only required if the input does not match the default input format in the table
+Note: You can also use the unique identifier of each hentai/manga (the number or the manga name at the end of the url) to reference all of these site, as long as you pass in the flag to indicate the site.

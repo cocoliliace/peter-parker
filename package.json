@@ -1,6 +1,6 @@
 {
   "name": "peter-parker",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "With great power comes great hentai",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,14 @@
     "type": "git",
     "url": "https://github.com/ChingChang9/peter-parker.git"
   },
-  "keywords": [],
+  "keywords": [
+    "hentai",
+    "manga",
+    "downloader",
+    "pdf",
+    "nhentai",
+    "kissmanga"
+  ],
   "author": "Ching Chang",
   "contributors": [
     {
@@ -26,12 +33,12 @@
   },
   "homepage": "https://github.com/ChingChang9/peter-parker#readme",
   "dependencies": {
-    "cheerio": "^1.0.0-rc.3",
+    "cheerio": "^1.0.0-rc.6",
     "fs": "0.0.1-security",
-    "image-size": "^0.9.1",
-    "pdfkit": "^0.11.0"
+    "image-size": "^1.0.0",
+    "pdfkit": "^0.12.1"
   },
   "devDependencies": {
-    "eslint": "^7.24.0"
+    "eslint": "^7.25.0"
   }
 }
