@@ -1,7 +1,6 @@
-const sauce = process.argv[2];
-const flag = process.argv[3] || "";
-
-if (!sauce) return;
+const parseArgs = require("./scripts/parseArgs");
+const [sauce, flag] = parseArgs(process.argv[2], process.argv[3]);
+if (!sauce) return console.log("No sauce given!");
 
 const goWebGo = new Promise(resolve => {
 	resolve(
