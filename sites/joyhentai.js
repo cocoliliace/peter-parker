@@ -22,7 +22,7 @@ module.exports = async url => {
 };
 
 function getInfo($) {
-	const folderName = $("h1.list-pickup-header").text().replace(/\.?( \[.+\])+$/, "");
+	const folderName = $("h1.list-pickup-header").text().replace(/^\(.{1,8}\) /, "").replace(/\.?( \[.{1,20}\])+$/, "");
 	if (!folderName) throw "Sauce not found!";
 	const lastPage = parseInt($("a[title='Total Pages']").text());
 	const baseUrl = $("div.col.s12.m12.l12.center img").attr("data-src").replace(/\/1\..+$/, "/");
