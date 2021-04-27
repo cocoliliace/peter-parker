@@ -5,10 +5,9 @@ const displayProgress = require("../scripts/displayProgress.js");
 const makePdf = require("../scripts/makePdf.js");
 
 module.exports = async url => {
-	const $ = await getPage(url.startsWith("https") ? url : `https://kissmanga.org/manga/${ url }`);
+	const $ = await getPage(url.startsWith("https") ? url : `https://kissmanga.org/manga/${ url }`).catch(error => { throw error });
 
-	const title = $(".bigChar").text();
-	const chapters = $(".listing a");
+	const [title, chapters] = getInfo($);
 
 	if (!fs.existsSync(`./${ title }`)) {
 		fs.mkdirSync(`./${ title }`);
@@ -30,6 +29,14 @@ module.exports = async url => {
 	await Promise.allSettled(imagePromises);
 	return Promise.allSettled(pdfPromises).then(() => fs.rmdirSync(`./${ title }`));
 };
+
+function getInfo($) {
+	const title = $(".bigChar").text();
+	if (!title) throw "Sauce not found!";
+	const chapters = $(".listing a");
+
+	return [title, chapters];
+}
 
 async function downloadChapter(url, title, chapterName, imagePromises, pdfPromises) {
 	const $ = await getPage(url);

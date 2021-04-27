@@ -13,9 +13,9 @@ function getPage(url) {
 				response.once("end", () => resolve(cheerio.load(Buffer.concat(chunks).toString())));
 				response.once("error", error => reject(`Error: ${ error.message }`));
 			} else if (response.statusCode === 404) {
-				process.stdout.write("Can't find the sauce!"); reject("");
+				reject("Sauce not found!");
 			} else {
-				process.stdout.write(`Error ${ response.statusCode }: ${ response.statusMessage }`); reject("");
+				reject(`Error ${ response.statusCode }: ${ response.statusMessage }`);
 			}
 		});
 
