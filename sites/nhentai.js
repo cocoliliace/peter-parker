@@ -5,7 +5,7 @@ const displayProgress = require("../scripts/displayProgress.js");
 const makePdf = require("../scripts/makePdf.js");
 
 module.exports = async number => {
-	const $ = await getPage(`https://nhentai.net/g/${ number }/`).catch(error => { throw error });
+	const $ = await getPage(`https://nhentai.net/g/${ number }/`).catch(error => { throw error; });
 
 	const [lastPage, folderName] = getInfo($);
 

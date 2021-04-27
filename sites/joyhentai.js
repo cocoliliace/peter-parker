@@ -5,9 +5,9 @@ const displayProgress = require("../scripts/displayProgress.js");
 const makePdf = require("../scripts/makePdf.js");
 
 module.exports = async url => {
-	const $ = await getPage(url.startsWith("https") ? url : `https://joyhentai.com/detail/${ url }.html`).catch(error => { throw error });
+	const $ = await getPage(url).catch(error => { throw error; });
 
-	const [baseUrl, folderName, lastPage] = getInfo($, url);
+	const [baseUrl, folderName, lastPage] = getInfo($);
 
 	if (!fs.existsSync(`./${ folderName }`)) {
 		fs.mkdirSync(`./${ folderName }`);

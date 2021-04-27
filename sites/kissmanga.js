@@ -5,7 +5,7 @@ const displayProgress = require("../scripts/displayProgress.js");
 const makePdf = require("../scripts/makePdf.js");
 
 module.exports = async url => {
-	const $ = await getPage(url.startsWith("https") ? url : `https://kissmanga.org/manga/${ url }`).catch(error => { throw error });
+	const $ = await getPage(url).catch(error => { throw error; });
 
 	const [title, chapters] = getInfo($);
 
