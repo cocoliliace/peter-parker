@@ -5,9 +5,7 @@ const displayProgress = require("../scripts/displayProgress.js");
 const makePdf = require("../scripts/makePdf.js");
 
 module.exports = async url => {
-	const $ = await getPage(url).catch(error => { throw error; });
-
-	const [title, chapters] = getInfo($);
+	const [title, chapters] = await getInfo(url);
 
 	if (!fs.existsSync(`./${ title }`)) {
 		fs.mkdirSync(`./${ title }`);
@@ -30,7 +28,8 @@ module.exports = async url => {
 	return Promise.allSettled(pdfPromises).then(() => fs.rmdirSync(`./${ title }`));
 };
 
-function getInfo($) {
+async function getInfo(url) {
+	const $ = await getPage(url).catch(error => { throw error; });
 	const title = $(".bigChar").text();
 	if (!title) throw "Sauce not found!";
 	const chapters = $(".listing a");
@@ -49,7 +48,7 @@ async function downloadChapter(url, title, chapterName, imagePromises, pdfPromis
 
 	let promises = [];
 	for (let page = 1; page < lastPage; page++) {
-		const promise = downloadImage(pages.children().eq(page - 1).attr("src"), `${ title }/${ chapterName }`, page);
+		const promise = downloadImage(pages.children().eq(page - 1).attr("src"), `./${ title }/${ chapterName }/${ page }.jpg`);
 		promises.push(promise);
 		imagePromises.push(promise);
 	}

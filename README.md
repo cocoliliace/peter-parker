@@ -20,6 +20,7 @@ Simply run `index.js` with an input in the format specified in the table below, 
 
 SITE | INPUT
 :-:|:-:
+E-HENTAI | <span>https://</span>e-hentai.org/g/UNIQUE_ID/UNIQUE_ID
 JOYHENTAI | <span>https://</span>joyhentai.com/detail/XXXXXXXoXXXXXX.html
 KISSMANGA | <span>https://</span>kissmanga.org/manga/MANGA_NAME
 NHENTAI | any number of 1 to 6 digits
