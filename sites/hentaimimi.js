@@ -18,7 +18,7 @@ module.exports = async url => {
 };
 
 async function getInfo(url) {
-	const $ = await getPage(url).catch(error => { throw error; });
+	const $ = await getPage(url.replace(/\/$/, "")).catch(error => { throw error; });
 
 	const script = $("main .container").children()[1].children[0].data;
 	const baseUrl = `https://hentaimimi.com//${ script.match(/"([^"]*)"/)[1].slice(0, -8) }`;

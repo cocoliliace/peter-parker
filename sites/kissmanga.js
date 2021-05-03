@@ -38,7 +38,7 @@ async function getInfo(url) {
 }
 
 async function downloadChapter(url, title, chapterName, imagePromises, pdfPromises) {
-	const $ = await getPage(url);
+	const $ = await getPage(url).catch(error => { throw error; });
 	const pages = $("#centerDivVideo");
 	const lastPage = pages.children().length;
 
