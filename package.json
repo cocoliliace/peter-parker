@@ -1,6 +1,6 @@
 {
   "name": "peter-parker",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "With great power comes great hentai",
   "main": "index.js",
   "scripts": {
@@ -37,7 +37,8 @@
     "cheerio": "^1.0.0-rc.6",
     "fs": "0.0.1-security",
     "image-size": "^1.0.0",
-    "pdfkit": "^0.12.1"
+    "pdfkit": "^0.12.1",
+    "webp-converter": "^2.3.3"
   },
   "devDependencies": {
     "eslint": "^7.25.0"

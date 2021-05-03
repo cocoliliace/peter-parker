@@ -38,12 +38,12 @@ function removeDirectory(title) {
 
 function addPage(doc, filePath, page) {
 	return new Promise(resolve => {
-		sizeOf(`./${ filePath }/${ page }.jpg`, (error, dimensions) => {
+		sizeOf(`./${ filePath }/${ page }`, (error, dimensions) => {
 			resolve(
 				doc.addPage({
 					margin: 0,
 					size: [dimensions.width, dimensions.height]
-				}).image(`./${ filePath }/${ page }.jpg`, {
+				}).image(`./${ filePath }/${ page }`, {
 					width: dimensions.width,
 					height: dimensions.height
 				}));

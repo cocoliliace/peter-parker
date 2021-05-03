@@ -48,7 +48,7 @@ async function downloadChapter(url, title, chapterName, imagePromises, pdfPromis
 
 	let promises = [];
 	for (let page = 1; page < lastPage; page++) {
-		const promise = downloadImage(pages.children().eq(page - 1).attr("src"), `./${ title }/${ chapterName }/${ page }.jpg`);
+		const promise = downloadImage(pages.children().eq(page - 1).attr("src"), `./${ title }/${ chapterName }/${ page }`);
 		promises.push(promise);
 		imagePromises.push(promise);
 	}

@@ -7,10 +7,6 @@ const makePdf = require("../scripts/makePdf.js");
 module.exports = async url => {
 	const [baseUrl, folderName, lastPage] = await getInfo(url);
 
-	if (!fs.existsSync(`./${ folderName }`)) {
-		fs.mkdirSync(`./${ folderName }`);
-	}
-
 	const promises = downloadChapter(baseUrl, folderName, lastPage);
 
 	displayProgress(promises);
@@ -30,9 +26,13 @@ async function getInfo(url) {
 }
 
 function downloadChapter(baseUrl, folderName, lastPage) {
+	if (!fs.existsSync(`./${ folderName }`)) {
+		fs.mkdirSync(`./${ folderName }`);
+	}
+
 	let promises = [];
 	for (let page = 1; page <= lastPage; page++) {
-		promises.push(downloadImage(`${ baseUrl }${ page }.jpg`, `./${ folderName }/${ page }.jpg`));
+		promises.push(downloadImage(`${ baseUrl }${ page }.jpg`, `./${ folderName }/${ page }`));
 	}
 	return promises;
 }
