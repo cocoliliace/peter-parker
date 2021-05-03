@@ -28,7 +28,7 @@ module.exports = async (title, folder) => {
 	removeDirectory(filePath);
 	process.stdout.clearLine();
 	process.stdout.cursorTo(0);
-	return console.log(`Saved ./responsibility/${ filePath }.pdf!`);
+	console.log(`Saved ./responsibility/${ filePath }.pdf!`);
 };
 
 function removeDirectory(title) {

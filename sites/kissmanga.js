@@ -25,7 +25,7 @@ module.exports = async url => {
 	await Promise.allSettled(chapterPromises);
 	displayProgress(imagePromises);
 	await Promise.allSettled(imagePromises);
-	return Promise.allSettled(pdfPromises).then(() => fs.rmdirSync(`./${ title }`));
+	Promise.allSettled(pdfPromises).then(() => fs.rmdirSync(`./${ title }`));
 };
 
 async function getInfo(url) {

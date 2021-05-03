@@ -5,7 +5,7 @@ const displayProgress = require("../scripts/displayProgress.js");
 const makePdf = require("../scripts/makePdf.js");
 
 module.exports = async number => {
-	const $ = await getPage(`https://nhentai.net/g/${ number }/`).catch(error => { throw error; });
+	const $ = await getPage(isNaN(number) ? `${ number }/`.replace(/\/\/$/, "/") : `https://nhentai.net/g/${ number }/`).catch(error => { throw error; });
 
 	const [lastPage, folderName] = getInfo($);
 
@@ -14,7 +14,7 @@ module.exports = async number => {
 	displayProgress(promises);
 
 	await Promise.allSettled(promises);
-	return makePdf(folderName);
+	makePdf(folderName);
 };
 
 function getInfo($) {
@@ -28,7 +28,7 @@ function getInfo($) {
 	}
 	const artist = artistField ? `${ artistField[0] } ` : artistTag ? `[${ artistTag }] ` : "";
 	const title = $("#info h1.title span.pretty").text();
-	const folderName = `${ artist }${ title }`;
+	const folderName = `${ artist }${ title }`.replace(/^\(.{1,16}\) /, "").replace(/\.?( (\[|\{).{1,20}(\]|\}))+$/, "");
 
 	return [lastPage, folderName];
 }

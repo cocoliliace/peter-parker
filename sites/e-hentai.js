@@ -24,7 +24,7 @@ module.exports = async url => {
 	await Promise.allSettled(chunkPromises);
 	displayProgress(promises);
 	await Promise.allSettled(promises);
-	return makePdf(folderName);
+	makePdf(folderName);
 };
 
 async function downloadChunk(url, previewPage, folderName, promises) {
@@ -38,7 +38,7 @@ async function downloadChunk(url, previewPage, folderName, promises) {
 			pagePromises.push(downloadPage(imageUrls[key].attribs.href, folderName, previewPage * 40 + parseInt(key) + 1, promises));
 		}
 	}
-	return await Promise.allSettled(pagePromises);
+	await Promise.allSettled(pagePromises);
 }
 
 async function downloadPage(url, folderName, page, promises) {

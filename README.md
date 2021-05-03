@@ -25,6 +25,6 @@ hentai2read | <span>https://</span>hentai2read.com/**HENTAI_NAME**<br />(only wo
 hentaimimi | <span>https://</span>hentaimimi.com/view/**UNIQUE_ID**
 joyhentai | <span>https://</span>joyhentai.com/detail/**XXXXXXXoXXXXXX**.html
 kissmanga | <span>https://</span>kissmanga.org/manga/**MANGA_NAME**
-nhentai | any number of 1 to 6 digits
+nhentai | any number of 1 to 6 digits<br /><span>https://</span>nhentai.net/g/**NUMBER**
 hentaicafe | SITE REMOVED
 hentainexus | SITE REMOVED

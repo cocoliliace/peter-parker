@@ -12,7 +12,7 @@ module.exports = async url => {
 	displayProgress(promises);
 
 	await Promise.allSettled(promises);
-	return makePdf(folderName);
+	makePdf(folderName);
 };
 
 async function getInfo(url) {
