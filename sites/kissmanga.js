@@ -53,5 +53,4 @@ async function downloadChapter(url, title, chapterName, imagePromises, pdfPromis
 		imagePromises.push(promise);
 	}
 	Promise.allSettled(promises).then(() => pdfPromises.push(makePdf(chapterName, title)));
-	return;
 }

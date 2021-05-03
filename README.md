@@ -20,10 +20,11 @@ Simply run `index.js` with an input in the format specified in the table below, 
 
 SITE | INPUT
 :-:|:-:
-E-HENTAI | <span>https://</span>e-hentai.org/g/UNIQUE_ID/UNIQUE_ID
-HENTAIMIMI | <span>https://</span>hentaimimi.com/view/UNIQUE_ID
-JOYHENTAI | <span>https://</span>joyhentai.com/detail/XXXXXXXoXXXXXX.html
-KISSMANGA | <span>https://</span>kissmanga.org/manga/MANGA_NAME
-NHENTAI | any number of 1 to 6 digits
-HENTAICAFE | SITE REMOVED
-HENTAINEXUS | SITE REMOVED
+e-hentai | <span>https://</span>e-hentai.org/g/**UNIQUE_ID**/**UNIQUE_ID**
+hentai2read | <span>https://</span>hentai2read.com/**HENTAI_NAME**<br />(only works for single-chapter hentai)
+hentaimimi | <span>https://</span>hentaimimi.com/view/**UNIQUE_ID**
+joyhentai | <span>https://</span>joyhentai.com/detail/**XXXXXXXoXXXXXX**.html
+kissmanga | <span>https://</span>kissmanga.org/manga/**MANGA_NAME**
+nhentai | any number of 1 to 6 digits
+hentaicafe | SITE REMOVED
+hentainexus | SITE REMOVED

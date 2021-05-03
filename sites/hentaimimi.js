@@ -21,15 +21,16 @@ async function getInfo(url) {
 	const $ = await getPage(url).catch(error => { throw error; });
 
 	const script = $("main .container").children()[1].children[0].data;
-	const baseUrl = script.match(/"([^"]*)"/)[1].slice(0, -8);
+	const baseUrl = `https://hentaimimi.com//${ script.match(/"([^"]*)"/)[1].slice(0, -8) }`;
 
 	const fields = $("div.p-0").children();
 	const lastPage = parseInt(fields.eq(5).children().eq(1).text());
 	const title = fields.eq(0).text();
 	const artist = fields.eq(1).children().eq(1).text()
-		.split(" ").map(word => `${ word.substring(0,1).toUpperCase() }${ word.substring(1) }`).join(" ");;
+		.split(" ").map(word => `${ word.substring(0,1).toUpperCase() }${ word.substring(1) }`).join(" ");
+	const folderName = `[${ artist }] ${ title }`;
 
-	return [`https://hentaimimi.com//${ baseUrl }`, lastPage, `[${ artist }] ${ title }`];
+	return [baseUrl, lastPage, folderName];
 }
 
 async function downloadChapter(baseUrl, lastPage, folderName) {
@@ -49,7 +50,7 @@ async function downloadChapter(baseUrl, lastPage, folderName) {
 	return promises;
 }
 
-async function webpToJpg(filePath, promises) {
+async function webpToJpg(filePath) {
 	await webp.dwebp(filePath, filePath.replace(".webp", ""), "-o");
 	fs.unlinkSync(filePath);
 }

@@ -1,6 +1,6 @@
 {
   "name": "peter-parker",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "description": "With great power comes great hentai",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,9 @@
     "pdf",
     "nhentai",
     "kissmanga",
-    "joyhentai"
+    "joyhentai",
+    "e-hentai",
+    "hentai2read"
   ],
   "author": "Ching Chang",
   "contributors": [
