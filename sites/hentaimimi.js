@@ -43,7 +43,7 @@ async function downloadChapter(baseUrl, lastPage, folderName) {
 
 	for (let page = 1; page <= lastPage; page++) {
 		webpPromises.push(downloadImage(`${ baseUrl }${ "0".repeat(3 - page.toString().length) }${ page }.webp`, `./${ folderName }/${ page }.webp`)
-			.then(filePath => promises.push(webpToJpg(filePath))));
+			.then(filePath => promises.push(webpToJpg(filePath))).catch(console.log));
 	}
 
 	await Promise.allSettled(webpPromises);

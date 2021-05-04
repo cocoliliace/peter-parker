@@ -9,7 +9,7 @@ module.exports = async (title, folder) => {
 		autoFirstPage: false,
 		info: {
 			Title: title.replace(/\[(.+)\] /, ""),
-			Author: title.match(/\[(.+)\]/)?.[1]
+			Author: title.match(/\[(.+)\]/)?.[1] || ""
 		}
 	});
 
@@ -21,7 +21,7 @@ module.exports = async (title, folder) => {
 	const pages = fs.readdirSync(`./${ filePath }`).length;
 	for (let page = 1; page <= pages; page++) {
 		/* eslint-disable no-await-in-loop */
-		await addPage(doc, filePath, page);
+		await addPage(doc, filePath, page).catch(console.log);
 		/* eslint-ensable no-await-in-loop */
 	}
 	doc.end();
@@ -37,8 +37,9 @@ function removeDirectory(title) {
 }
 
 function addPage(doc, filePath, page) {
-	return new Promise(resolve => {
+	return new Promise((resolve, reject) => {
 		sizeOf(`./${ filePath }/${ page }`, (error, dimensions) => {
+			if (error) reject(error);
 			resolve(
 				doc.addPage({
 					margin: 0,
@@ -46,7 +47,8 @@ function addPage(doc, filePath, page) {
 				}).image(`./${ filePath }/${ page }`, {
 					width: dimensions.width,
 					height: dimensions.height
-				}));
+				})
+			);
 		});
 	});
 }

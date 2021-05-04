@@ -41,7 +41,7 @@ function downloadChapter(baseUrl, folderName, lastPage) {
 
 	let promises = [];
 	for (let page = 1; page <= lastPage; page++) {
-		promises.push(downloadImage(`${ baseUrl }${ "0".repeat(4 - page.toString().length) }${ page }.jpg`, `./${ folderName }/${ page }`));
+		promises.push(downloadImage(`${ baseUrl }${ "0".repeat(4 - page.toString().length) }${ page }.jpg`, `./${ folderName }/${ page }`).catch(console.log));
 	}
 
 	return promises;

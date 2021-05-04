@@ -45,5 +45,5 @@ async function downloadPage(url, folderName, page, promises) {
 	const $ = await getPage(url).catch(error => { throw error; });
 
 	const imageUrl = $("#img").attr("src");
-	promises.push(downloadImage(imageUrl, `./${ folderName }/${ page }`));
+	promises.push(downloadImage(imageUrl, `./${ folderName }/${ page }`).catch(console.log));
 }

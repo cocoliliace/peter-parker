@@ -41,7 +41,7 @@ function downloadChapter($, lastPage, folderName) {
 	let promises = [];
 	for (let page = 1; page <= lastPage; page++) {
 		const imageUrl = $(".thumbs").children().eq(page - 1).children().eq(0).children().eq(0).attr("data-src").replace("t.", "i.").replace("t.", ".");
-		promises.push(downloadImage(imageUrl, `./${ folderName }/${ page }`));
+		promises.push(downloadImage(imageUrl, `./${ folderName }/${ page }`).catch(console.log));
 	}
 	return promises;
 }
