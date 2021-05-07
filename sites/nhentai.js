@@ -14,7 +14,7 @@ module.exports = async number => {
 	displayProgress(promises);
 
 	await Promise.allSettled(promises);
-	makePdf(folderName);
+	await makePdf(folderName);
 };
 
 function getInfo($) {

@@ -14,7 +14,7 @@ module.exports = async url => {
 	displayProgress(promises);
 
 	await Promise.allSettled(promises);
-	makePdf(folderName);
+	await makePdf(folderName);
 };
 
 async function getInfo(url) {
