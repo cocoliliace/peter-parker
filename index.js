@@ -6,6 +6,7 @@ const sauce = process.argv[2];
 if (!sauce) return console.log("No sauce given!");
 
 Promise.resolve(
+	sauce.includes("9hentai") ? require("./sites/9hentai.js")(sauce) :
 	sauce.includes("e-hentai") ? require("./sites/e-hentai.js")(sauce) :
 	sauce.includes("hentai2read") ? require("./sites/hentai2read.js")(sauce) :
 	sauce.includes("hentaimimi") ? require("./sites/hentaimimi.js")(sauce) :

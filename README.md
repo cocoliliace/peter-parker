@@ -20,6 +20,7 @@ Simply run `index.js` with an input in the format specified in the table below, 
 
 SITE | INPUT
 :-:|:-:
+9hentai | <span>https://</span>9hentai.to/g/**NUMBER**/
 e-hentai | <span>https://</span>e-hentai.org/g/**UNIQUE_ID**/**UNIQUE_ID**
 hentai2read | <span>https://</span>hentai2read.com/**HENTAI_NAME**<br />(only works for single-chapter hentai)
 hentaimimi | <span>https://</span>hentaimimi.com/view/**UNIQUE_ID**
