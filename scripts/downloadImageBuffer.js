@@ -1,17 +1,18 @@
 const https = require("https");
-const cheerio = require("cheerio");
 
-module.exports = url => {
+module.exports = downloadImage;
+
+function downloadImage(imageUrl) {
 	return new Promise((resolve, reject) => {
-		const client = https.request(url, response => {
+		const client = https.request(imageUrl, response => {
 			if (response.statusCode === 200 || response.statusCode === 204) {
-				let chunks = [];
+				let data = [];
 
-				response.on("data", chunk => chunks.push(chunk));
-				response.once("end", () => resolve(cheerio.load(Buffer.concat(chunks).toString())));
+				response.on("data", chunk => data.push(chunk));
+				response.once("end", () => resolve(Buffer.concat(data)));
 				response.once("error", error => reject(`Error: ${ error.message }`));
-			} else if (response.statusCode === 404) {
-				reject("Sauce not found!");
+			} else if (response.statusCode === 503) {
+				resolve(downloadImage(imageUrl));
 			} else {
 				reject(`Error ${ response.statusCode }: ${ response.statusMessage }`);
 			}
@@ -20,4 +21,4 @@ module.exports = url => {
 		client.end();
 		client.once("error", reject);
 	});
-};
+}

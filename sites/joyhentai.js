@@ -1,38 +1,31 @@
-const fs = require("fs");
 const getPage = require("../scripts/getPage");
-const downloadImage = require("../scripts/downloadImage.js");
-const displayProgress = require("../scripts/displayProgress.js");
-const makePdf = require("../scripts/makePdf.js");
+const downloadImage = require("../scripts/downloadImageBuffer.js");
 
 module.exports = async url => {
-	const [baseUrl, folderName, lastPage] = await getInfo(url);
+	const [baseUrl, fileExtension, fileName, lastPage] = await getInfo(url);
 
-	const promises = downloadChapter(baseUrl, folderName, lastPage);
+	const promises = downloadChapter(baseUrl, fileExtension, lastPage);
 
-	displayProgress(promises);
-
-	await Promise.allSettled(promises);
-	await makePdf(folderName);
+	return [promises, fileName, url];
 };
 
 async function getInfo(url) {
 	const $ = await getPage(url).catch(error => { throw error; });
-	const folderName = $("h1.list-pickup-header").text().replace(/^\(.{1,16}\) /, "").replace(/\.?( (\[|\{).{1,20}(\]|\}))+$/, "");
-	if (!folderName) throw "Sauce not found!";
+	const fileName = $("h1.list-pickup-header").text();
+	if (!fileName) throw "Sauce not found!";
 	const lastPage = parseInt($("a[title='Total Pages']").text());
-	const baseUrl = $("div.col.s12.m12.l12.center img").attr("data-src").replace(/\/1\..+$/, "/");
+	const firstUrl = $("div.col.s12.m12.l12.center img").attr("data-src");
+	const baseUrl = firstUrl.replace(/\/1\..+$/, "/");
+	const fileExtension = firstUrl.match(/\/1\.(.+)$/)[1];
 
-	return [baseUrl, folderName, lastPage];
+	return [baseUrl, fileExtension, fileName, lastPage];
 }
 
-function downloadChapter(baseUrl, folderName, lastPage) {
-	if (!fs.existsSync(`./${ folderName }`)) {
-		fs.mkdirSync(`./${ folderName }`);
-	}
-
+function downloadChapter(baseUrl, fileExtension, lastPage) {
 	let promises = [];
 	for (let page = 1; page <= lastPage; page++) {
-		promises.push(downloadImage(`${ baseUrl }${ page }.jpg`, `./${ folderName }/${ page }`).catch(console.log));
+		promises.push(downloadImage(`${ baseUrl }${ page }.${ fileExtension }`).catch(console.log));
 	}
+
 	return promises;
 }

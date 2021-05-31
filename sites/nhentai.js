@@ -1,25 +1,24 @@
-const fs = require("fs");
 const getPage = require("../scripts/getPage");
-const downloadImage = require("../scripts/downloadImage.js");
-const displayProgress = require("../scripts/displayProgress.js");
-const makePdf = require("../scripts/makePdf.js");
+const downloadImage = require("../scripts/downloadImageBuffer.js");
 
-module.exports = async number => {
-	const $ = await getPage(isNaN(number) ? `${ number }/`.replace(/\/\/$/, "/") : `https://nhentai.net/g/${ number }/`).catch(error => { throw error; });
+module.exports = async sauce => {
+	const url = isNaN(sauce) ? `${ sauce }/`.replace(/\/\/$/, "/") : `https://nhentai.net/g/${ sauce }/`;
 
-	const [lastPage, folderName] = getInfo($);
+	const [pages, lastPage, fileName] = await getInfo(url);
 
-	const promises = downloadChapter($, lastPage, folderName);
+	const promises = downloadChapter(pages, lastPage);
 
-	displayProgress(promises);
-
-	await Promise.allSettled(promises);
-	await makePdf(folderName);
+	return [promises, fileName, url];
 };
 
-function getInfo($) {
+async function getInfo(url) {
+	const $ = await getPage(url).catch(error => { throw error; });
+
+	const pages = $(".thumbs").children();
+
 	const tags = $("#tags").children();
 	const lastPage = tags.eq(-2).children().text();
+
 	const artistField = $("#info h1.title span.before").text().match(/\[.+\]/);
 	let artistTag;
 	if (!artistField) {
@@ -28,20 +27,17 @@ function getInfo($) {
 	}
 	const artist = artistField ? `${ artistField[0] } ` : artistTag ? `[${ artistTag }] ` : "";
 	const title = $("#info h1.title span.pretty").text();
-	const folderName = `${ artist }${ title }`.replace(/^\(.{1,16}\) /, "").replace(/\.?( (\[|\{).{1,20}(\]|\}))+$/, "");
+	const fileName = artist + title;
 
-	return [lastPage, folderName];
+	return [pages, lastPage, fileName];
 }
 
-function downloadChapter($, lastPage, folderName) {
-	if (!fs.existsSync(`./${ folderName }`)) {
-		fs.mkdirSync(`./${ folderName }`);
+function downloadChapter(pages, lastPage) {
+	let promises = [];
+	for (let page = 0; page < lastPage; page++) {
+		const imageUrl = pages.eq(page).children().eq(0).children().eq(0).attr("data-src").replace("t.", "i.").replace("t.", ".");
+		promises.push(downloadImage(imageUrl).catch(console.log));
 	}
 
-	let promises = [];
-	for (let page = 1; page <= lastPage; page++) {
-		const imageUrl = $(".thumbs").children().eq(page - 1).children().eq(0).children().eq(0).attr("data-src").replace("t.", "i.").replace("t.", ".");
-		promises.push(downloadImage(imageUrl, `./${ folderName }/${ page }`).catch(console.log));
-	}
 	return promises;
 }

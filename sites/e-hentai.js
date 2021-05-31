@@ -1,49 +1,50 @@
-const fs = require("fs");
 const getPage = require("../scripts/getPage");
-const downloadImage = require("../scripts/downloadImage.js");
-const displayProgress = require("../scripts/displayProgress.js");
-const makePdf = require("../scripts/makePdf.js");
+const downloadImage = require("../scripts/downloadImageBuffer.js");
 
 module.exports = async url => {
-	const $ = await getPage(url).catch(error => { throw error; });
-	const folderName = $("#gn").text().replace(/^\(.{1,15}\) /, "").replace(/\.?( (\[|\{|\().{1,20}(\]|\}|\)))+$/, "");
-
-	if (!fs.existsSync(`./${ folderName }`)) {
-		fs.mkdirSync(`./${ folderName }`);
-	}
-
-	const previewPages = $("table.ptt tr").children().length - 2;
 	url = url.replace(/\/$/, "");
+	const [fileName, previewPages] = await getInfo(url);
 
-	let promises = [];
-	let chunkPromises = [];
-	for (let previewPage = 0; previewPage < previewPages; previewPage++) {
-		chunkPromises.push(downloadChunk(url, previewPage, folderName, promises));
-	}
+	const promises = await downloadChunks(url, previewPages);
 
-	await Promise.allSettled(chunkPromises);
-	displayProgress(promises);
-	await Promise.allSettled(promises);
-	await makePdf(folderName);
+	return [promises, fileName, url];
 };
 
-async function downloadChunk(url, previewPage, folderName, promises) {
-	const $ = await getPage(`${ url }/?p=${ previewPage }`).catch(error => { throw error; });
+async function getInfo(url) {
+	const $ = await getPage(url).catch(error => { throw error; });
+	const fileName = $("#gn").text();
+	const previewPages = $("table.ptt tr").children().length - 2;
 
-	const imageUrls = $("#gdt a");
-
-	let pagePromises = [];
-	for (const key in imageUrls) {
-		if (imageUrls[key].attribs?.href) {
-			pagePromises.push(downloadPage(imageUrls[key].attribs.href, folderName, previewPage * 40 + parseInt(key) + 1, promises));
-		}
-	}
-	await Promise.allSettled(pagePromises);
+	return [fileName, previewPages];
 }
 
-async function downloadPage(url, folderName, page, promises) {
-	const $ = await getPage(url).catch(error => { throw error; });
+async function downloadChunks(url, previewPages) {
+	let promises = [];
+	let chunkPromises = [];
 
-	const imageUrl = $("#img").attr("src");
-	promises.push(downloadImage(imageUrl, `./${ folderName }/${ page }`).catch(console.log));
+	for (let previewPage = 0; previewPage < previewPages; previewPage++) {
+		chunkPromises.push(getPage(`${ url }/?p=${ previewPage }`).catch(error => { throw error; }));
+	}
+
+	await Promise.all(chunkPromises).then(results => {
+		results.forEach($ => downloadChunk($("#gdt a"), promises));
+	});
+
+	return promises;
+}
+
+function downloadChunk(imageUrls, promises) {
+	for (const key in imageUrls) {
+		if (imageUrls[key].attribs?.href) {
+			downloadPage(imageUrls[key].attribs.href, promises);
+		}
+	}
+}
+
+function downloadPage(url, promises) {
+	promises.push(
+		Promise.resolve(getPage(url))
+			.then($ => downloadImage($("#img").attr("src")).catch(console.log))
+			.catch(error => { throw error; })
+	);
 }
