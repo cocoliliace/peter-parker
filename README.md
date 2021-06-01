@@ -1,12 +1,14 @@
 # Peter Parker
-With great power comes great hentai! Peter Parker is a powerful web-crawler that sources your favourite hentai and downloads them as PDFs!
+With great power comes great hentai! Peter Parker is a powerful web-crawler that
+sources your favourite hentai and downloads them as PDFs!
 
 ## Installation & Usage
 ```bash
 git clone https://github.com/ChingChang9/peter-parker.git
 cd peter-parker
-mkdir responsibility
+mkdir responsibility # Your hentai will be saved here
 npm install
+npm install user-agents@latest # Keeps the simulated user agents up-to-date (optional)
 
 # To download g/177013
 node . 177013
@@ -16,7 +18,8 @@ node . https://kissmanga.org/manga/tq922018
 ```
 
 ## How to use?
-Simply run `index.js` with an input in the format specified in the table below, and get ready to shoot your webs!
+Simply run `index.js` with an input in the format specified in the table below,
+and get ready to shoot your webs!
 
 SITE | INPUT
 :-:|:-:

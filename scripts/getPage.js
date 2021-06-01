@@ -1,9 +1,14 @@
 const https = require("https");
+const UserAgent = require("user-agents");
 const cheerio = require("cheerio");
 
 module.exports = url => {
 	return new Promise((resolve, reject) => {
-		const client = https.request(url, response => {
+		const client = https.request(url, {
+			headers: {
+				"User-Agent": new UserAgent({ deviceCategory: "desktop" }).toString()
+			}
+		}, response => {
 			if (response.statusCode === 200 || response.statusCode === 204) {
 				let chunks = [];
 

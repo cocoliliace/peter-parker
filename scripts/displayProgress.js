@@ -7,6 +7,6 @@ module.exports = promises => {
 
 		process.stdout.clearLine();
 		process.stdout.cursorTo(0);
-		process.stdout.write(`${ progress }/${ promises.length } [${ "🕷".repeat(ratio) }${ "🕸".repeat(ratioLength - ratio) }]`);
+		process.stdout.write(`${ progress }/${ promises.length } [${ "🕸".repeat(Math.max(ratio - 1, 0)) }🕷${ " ".repeat(ratioLength - ratio) }]`);
 	}));
 };
