@@ -6,6 +6,7 @@ module.exports = downloadImage;
 function downloadImage(imageUrl) {
 	return new Promise((resolve, reject) => {
 		const client = https.request(imageUrl, {
+			method: "GET",
 			headers: {
 				"User-Agent": new UserAgent({ deviceCategory: "desktop" }).toString()
 			}

@@ -5,6 +5,7 @@ const cheerio = require("cheerio");
 module.exports = url => {
 	return new Promise((resolve, reject) => {
 		const client = https.request(url, {
+			method: "GET",
 			headers: {
 				"User-Agent": new UserAgent({ deviceCategory: "desktop" }).toString()
 			}
