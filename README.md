@@ -53,7 +53,7 @@ SITE | INPUT
 e-hentai | <span>https://</span>e-hentai.org/g/**UNIQUE_ID**/**UNIQUE_ID**
 hentai2read | <span>https://</span>hentai2read.com/**HENTAI_NAME**<br />(only works for single-chapter hentai)
 hentaimimi | <span>https://</span>hentaimimi.com/view/**UNIQUE_ID**
-imgur | <span>https://</span>imgur.com/a/**UNIQUE_ID**
+imgur | <span>https://</span>imgur.com/a/**UNIQUE_ID**<br /><span>https://<span />imgur.com/gallery/**UNIQUE_ID**
 joyhentai | <span>https://</span>joyhentai.com/detail/**XXXXXXXoXXXXXX**.html
 kissmanga | <span>https://</span>kissmanga.org/manga/**MANGA_NAME**
 nhentai | any number of 1 to 6 digits<br /><span>https://</span>nhentai.net/g/**NUMBER**
