@@ -2,6 +2,19 @@
 With great power comes great hentai! Peter Parker is a powerful web-crawler that
 sources your favourite hentai and downloads them as PDFs!
 
+## Example usages
+```bash
+# To download g/177013
+node . 177013
+# or
+node . https://nhentai.net/g/177013
+
+# To download Ishigami x Iino fancomics
+node . https://kissmanga.org/manga/tq922018
+```
+Peter Parker supports way more sites, [listed below with their input format](#supported-sites).
+Simply run `index.js` with an acceptable input format, and get ready to shoot your webs!
+
 ## Installation
 ```bash
 git clone https://github.com/ChingChang9/peter-parker.git
@@ -33,21 +46,9 @@ npm install user-agents@latest # (OPTIONAL) Keeps the simulated user agents up-t
 	```js
 	const browser = await puppeteer.launch();
 	```
-## Example usages
-```bash
-# To download g/177013
-node . 177013
-# or
-node . https://nhentai.net/g/177013
+## Supported sites
 
-# To download Ishigami x Iino fancomics
-node . https://kissmanga.org/manga/tq922018
-```
-
-Peter Parker supports way more sites, listed below with their input format.
-Simply run `index.js` with an acceptable input format, and get ready to shoot your webs!
-
-SITE | INPUT
+SITE | INPUT FORMAT
 :-:|:-:
 9hentai | <span>https://</span>9hentai.to/g/**NUMBER**/
 e-hentai | <span>https://</span>e-hentai.org/g/**UNIQUE_ID**/**UNIQUE_ID**
