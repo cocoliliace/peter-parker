@@ -2,9 +2,7 @@ const puppeteer = require("puppeteer-core");
 const downloadImage = require("../scripts/downloadImageBuffer.js");
 
 module.exports = async url => {
-	const browser = await puppeteer.launch({
-		executablePath: "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-	});
+	const browser = await puppeteer.launch({ executablePath } = require("../config.json"));
 	const page = await browser.newPage();
 	await page.goto(url);
 	await page.click(".btn-wall--yes").catch(() => {});

@@ -25,9 +25,9 @@ npm install user-agents@latest # (OPTIONAL) Keeps the simulated user agents up-t
 ```
 #### The remaining of the installation is only necessary if you will be downloading from imgur.com
 - #### I have Chrome or Chromium installed
-	Set the executable path on line 5 of `./sites/imgur.js` to your local path.
-	It defaults to MacOS' settings, so if you are on MacOS, you can likely skip
-	this step.
+	Set the executable path in `./config.json` to your local path.
+	It defaults to a typical MacOS' path, so if you are on MacOS, you can likely
+	skip this step.
 	If you are getting errors, or are not on MacOS, you can get your executable
 	path by typing `chrome://version` in the address bar of your
 	Chrome/Chromium, or [refer to this StackOverflow post for more assistance](https://stackoverflow.com/questions/17736215/universal-path-to-chrome-exe).
@@ -42,7 +42,7 @@ npm install user-agents@latest # (OPTIONAL) Keeps the simulated user agents up-t
 	```js
 	const puppeteer = require("puppeteer");
 	```
-	Finally, remove _executablePath_ on line 5 of the same file so line 4 to 6 become
+	Finally, change line 5 of the same file to
 	```js
 	const browser = await puppeteer.launch();
 	```
