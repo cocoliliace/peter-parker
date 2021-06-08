@@ -1,20 +1,13 @@
-const fs = require("fs");
+const sharp = require("sharp");
 const getPage = require("../scripts/getPage");
-const downloadImage = require("../scripts/downloadImage.js");
-const displayProgress = require("../scripts/displayProgress.js");
-const makePdf = require("../scripts/makePdf.js");
-const webp = require("webp-converter");
-webp.grant_permission();
+const downloadImage = require("../scripts/downloadImageBuffer.js");
 
 module.exports = async url => {
-	const [baseUrl, lastPage, folderName] = await getInfo(url);
+	const [baseUrl, lastPage, fileName] = await getInfo(url);
 
-	const promises = await downloadChapter(baseUrl, lastPage, folderName);
+	const promises = await downloadChapter(baseUrl, lastPage, fileName);
 
-	displayProgress(promises);
-
-	await Promise.allSettled(promises);
-	await makePdf(folderName);
+	return [promises, fileName, url];
 };
 
 async function getInfo(url) {
@@ -28,29 +21,17 @@ async function getInfo(url) {
 	const title = fields.eq(0).text();
 	const artist = fields.eq(1).children().eq(1).text()
 		.split(" ").map(word => `${ word.substring(0,1).toUpperCase() }${ word.substring(1) }`).join(" ");
-	const folderName = `[${ artist }] ${ title }`;
+	const fileName = `[${ artist }] ${ title }`;
 
-	return [baseUrl, lastPage, folderName];
+	return [baseUrl, lastPage, fileName];
 }
 
-async function downloadChapter(baseUrl, lastPage, folderName) {
-	if (!fs.existsSync(`./${ folderName }`)) {
-		fs.mkdirSync(`./${ folderName }`);
-	}
-
-	let webpPromises = [];
+function downloadChapter(baseUrl, lastPage) {
 	let promises = [];
 
 	for (let page = 1; page <= lastPage; page++) {
-		webpPromises.push(downloadImage(`${ baseUrl }${ "0".repeat(3 - page.toString().length) }${ page }.webp`, `./${ folderName }/${ page }.webp`)
-			.then(filePath => promises.push(webpToJpg(filePath))).catch(console.log));
+		promises.push(downloadImage(`${ baseUrl }${ "0".repeat(3 - page.toString().length) }${ page }.webp`).then(webpBuffer => sharp(webpBuffer).jpeg(100).toBuffer()).catch(console.log));
 	}
 
-	await Promise.allSettled(webpPromises);
 	return promises;
-}
-
-async function webpToJpg(filePath) {
-	await webp.dwebp(filePath, filePath.replace(".webp", ""), "-o");
-	fs.unlinkSync(filePath);
 }
