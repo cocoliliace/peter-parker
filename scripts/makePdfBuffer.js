@@ -2,7 +2,7 @@ const fs = require("fs");
 const sizeOf = require("image-size");
 const PDFDocument = require("pdfkit");
 
-module.exports = async (fileName, buffers, source) => {
+module.exports = async (fileName, promises, source, startTime) => {
 	const doc = new PDFDocument({
 		autoFirstPage: false,
 		info: {
@@ -14,15 +14,13 @@ module.exports = async (fileName, buffers, source) => {
 
 	doc.pipe(fs.createWriteStream(`./responsibility/${ fileName }.pdf`));
 
-	for (const buffer of buffers) {
-		/* eslint-disable no-await-in-loop */
-		await addPage(doc, buffer).catch(console.log);
-		/* eslint-ensable no-await-in-loop */
+	for (const promise of promises) {
+		await addPage(doc, await promise).catch(console.log); // eslint-disable-line no-await-in-loop
 	}
 	doc.end();
 	process.stdout.clearLine();
 	process.stdout.cursorTo(0);
-	console.log(`Saved ./responsibility/${ fileName }.pdf!`);
+	console.log(`Saved "${ fileName }.pdf" in ${ process.hrtime(startTime)[0] }s!`);
 };
 
 function addPage(doc, buffer) {

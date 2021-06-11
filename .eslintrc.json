@@ -14,6 +14,7 @@
     "quotes": ["error", "double"],
     "semi": ["error", "always"],
     "require-await": ["error"],
+    "no-unused-vars": ["error", {"args": "all"}],
     "no-await-in-loop": ["error"],
     "no-extra-parens": ["error"],
     "no-promise-executor-return": ["error"],

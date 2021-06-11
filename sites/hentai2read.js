@@ -4,7 +4,7 @@ const downloadImage = require("../scripts/downloadImageBuffer.js");
 module.exports = async url => {
 	const [baseUrl, fileName, lastPage] = await getInfo(url);
 
-	const promises = downloadChapter(baseUrl, fileName, lastPage);
+	const promises = downloadChapter(baseUrl, lastPage);
 
 	return [promises, fileName, url];
 };
@@ -25,13 +25,13 @@ async function getInfo(url) {
 
 async function getBaseUrl(url) {
 	const $ = await getPage(url).catch(error => { throw error; });
-	return $("#arf-reader").attr("src").replace(/0001\..+$/, "");
+	return $("#arf-reader").attr("src").replace(/001\..+$/, "");
 }
 
-function downloadChapter(baseUrl, folderName, lastPage) {
+function downloadChapter(baseUrl, lastPage) {
 	let promises = [];
 	for (let page = 1; page <= lastPage; page++) {
-		promises.push(downloadImage(`${ baseUrl }${ "0".repeat(4 - page.toString().length) }${ page }.jpg`, `./${ folderName }/${ page }`).catch(console.log));
+		promises.push(downloadImage(`${ baseUrl }${ "0".repeat(3 - page.toString().length) }${ page }.jpg`).catch(console.log));
 	}
 
 	return promises;

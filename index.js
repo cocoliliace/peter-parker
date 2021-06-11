@@ -5,6 +5,7 @@ const formatFileName = require("./scripts/formatFileName.js");
 const sauce = process.argv[2];
 if (!sauce) return console.log("No sauce given!");
 
+const startTime = process.hrtime();
 Promise.resolve(
 	sauce.includes("9hentai") ? require("./sites/9hentai.js")(sauce) :
 	sauce.includes("e-hentai") ? require("./sites/e-hentai.js")(sauce) :
@@ -15,10 +16,8 @@ Promise.resolve(
 	sauce.includes("kissmanga") ? require("./sites/kissmanga.js")(sauce) :
 	sauce.includes("nhentai") || sauce.match(/^\d{1,6}$/) ? require("./sites/nhentai.js")(sauce) :
 	console.log("Invalid input")
-).then(([promises, fileName, url]) => {
+).then(async ([promises, fileName, url]) => {
 	displayProgress(promises);
-	Promise.all(promises).then(async buffers => {
-		await makePdf(formatFileName(fileName), buffers, url);
-		console.log("Courtesy, your friendly neighbourhood Spider-Man");
-	});
+	await makePdf(formatFileName(fileName), promises, url, startTime);
+	console.log("Courtesy, your friendly neighbourhood Spider-Man");
 }).catch(console.log);

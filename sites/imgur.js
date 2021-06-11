@@ -2,7 +2,7 @@ const puppeteer = require("puppeteer-core");
 const downloadImage = require("../scripts/downloadImageBuffer.js");
 
 module.exports = async url => {
-	const browser = await puppeteer.launch({ executablePath } = require("../config.json"));
+	const browser = await puppeteer.launch({ executablePath } = require("../config.json")); // eslint-disable-line no-undef
 	const page = await browser.newPage();
 	await page.goto(url);
 	await page.click(".btn-wall--yes").catch(() => {});
