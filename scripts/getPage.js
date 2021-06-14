@@ -14,7 +14,7 @@ module.exports = url => {
 				let chunks = [];
 
 				response.on("data", chunk => chunks.push(chunk));
-				response.once("end", () => resolve(cheerio.load(Buffer.concat(chunks).toString())));
+				response.once("end", () => resolve(cheerio.load(Buffer.concat(chunks))));
 				response.once("error", error => reject(`Error: ${ error.message }`));
 			} else if (response.statusCode === 404) {
 				reject("Sauce not found!");

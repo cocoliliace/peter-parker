@@ -20,6 +20,8 @@ Simply run `index.js` with an acceptable input format, and get ready to shoot yo
 git clone https://github.com/ChingChang9/peter-parker.git
 cd peter-parker
 mkdir responsibility # Your hentai will be saved here
+                     # If you want to save your hentai in a different place,
+                     # edit the `folderPath` variable in `./config.json`
 npm install
 npm install user-agents@latest # (OPTIONAL) Keeps the simulated user agents up-to-date
 ```

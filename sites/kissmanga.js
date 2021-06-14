@@ -40,14 +40,14 @@ async function getInfo(url) {
 async function downloadChapter(url, title, chapterName, imagePromises, pdfPromises) {
 	const $ = await getPage(url).catch(error => { throw error; });
 	const pages = $("#centerDivVideo");
-	const lastPage = pages.children().length;
+	const pageCount = pages.children().length;
 
 	if (!fs.existsSync(`./${ title }/${ chapterName }`)) {
 		fs.mkdirSync(`./${ title }/${ chapterName }`);
 	}
 
 	let promises = [];
-	for (let page = 1; page < lastPage; page++) {
+	for (let page = 1; page < pageCount; page++) {
 		const promise = downloadImage(pages.children().eq(page - 1).attr("src"), `./${ title }/${ chapterName }/${ page }`).catch(console.log);
 		promises.push(promise);
 		imagePromises.push(promise);

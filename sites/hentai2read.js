@@ -2,9 +2,9 @@ const getPage = require("../scripts/getPage");
 const downloadImage = require("../scripts/downloadImageBuffer.js");
 
 module.exports = async url => {
-	const [baseUrl, fileName, lastPage] = await getInfo(url);
+	const [baseUrl, fileName, pageCount] = await getInfo(url);
 
-	const promises = downloadChapter(baseUrl, lastPage);
+	const promises = downloadChapter(baseUrl, pageCount);
 
 	return [promises, fileName, url];
 };
@@ -18,9 +18,9 @@ async function getInfo(url) {
 	const artist = $("ul.list.list-simple-mini").children().eq(9).children().eq(1).text();
 	const fileName = `[${ artist }] ${ title }`;
 
-	const lastPage = parseInt($("ul.list.list-simple-mini").children().eq(7).children().eq(1).text());
+	const pageCount = parseInt($("ul.list.list-simple-mini").children().eq(7).children().eq(1).text());
 
-	return [baseUrl, fileName, lastPage];
+	return [baseUrl, fileName, pageCount];
 }
 
 async function getBaseUrl(url) {
@@ -28,9 +28,9 @@ async function getBaseUrl(url) {
 	return $("#arf-reader").attr("src").replace(/001\..+$/, "");
 }
 
-function downloadChapter(baseUrl, lastPage) {
+function downloadChapter(baseUrl, pageCount) {
 	let promises = [];
-	for (let page = 1; page <= lastPage; page++) {
+	for (let page = 1; page <= pageCount; page++) {
 		promises.push(downloadImage(`${ baseUrl }${ "0".repeat(3 - page.toString().length) }${ page }.jpg`).catch(console.log));
 	}
 

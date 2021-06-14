@@ -1,6 +1,7 @@
 const fs = require("fs");
 const sizeOf = require("image-size");
 const PDFDocument = require("pdfkit");
+const { folderPath } = require("../config.json");
 
 module.exports = async (fileName, promises, source, startTime) => {
 	const doc = new PDFDocument({
@@ -12,7 +13,7 @@ module.exports = async (fileName, promises, source, startTime) => {
 		}
 	});
 
-	doc.pipe(fs.createWriteStream(`./responsibility/${ fileName }.pdf`));
+	doc.pipe(fs.createWriteStream(`${ folderPath }/${ fileName }.pdf`));
 
 	for (const promise of promises) {
 		await addPage(doc, await promise).catch(console.log); // eslint-disable-line no-await-in-loop

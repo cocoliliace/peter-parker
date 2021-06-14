@@ -4,9 +4,9 @@ const downloadImage = require("../scripts/downloadImageBuffer.js");
 module.exports = async sauce => {
 	const url = isNaN(sauce) ? `${ sauce }/`.replace(/\/\/$/, "/") : `https://nhentai.net/g/${ sauce }/`;
 
-	const [pages, lastPage, fileName] = await getInfo(url);
+	const [pages, pageCount, fileName] = await getInfo(url);
 
-	const promises = downloadChapter(pages, lastPage);
+	const promises = downloadChapter(pages, pageCount);
 
 	return [promises, fileName, url];
 };
@@ -17,7 +17,7 @@ async function getInfo(url) {
 	const pages = $(".thumbs").children();
 
 	const tags = $("#tags").children();
-	const lastPage = tags.eq(-2).children().text();
+	const pageCount = tags.eq(-2).children().text();
 
 	const artistField = $("#info h1.title span.before").text().match(/\[.+\]/);
 	let artistTag;
@@ -29,12 +29,12 @@ async function getInfo(url) {
 	const title = $("#info h1.title span.pretty").text();
 	const fileName = artist + title;
 
-	return [pages, lastPage, fileName];
+	return [pages, pageCount, fileName];
 }
 
-function downloadChapter(pages, lastPage) {
+function downloadChapter(pages, pageCount) {
 	let promises = [];
-	for (let page = 0; page < lastPage; page++) {
+	for (let page = 0; page < pageCount; page++) {
 		const imageUrl = pages.eq(page).children().eq(0).children().eq(0).attr("data-src").replace("t.", "i.").replace("t.", ".");
 		promises.push(downloadImage(imageUrl).catch(console.log));
 	}

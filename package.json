@@ -1,6 +1,6 @@
 {
   "name": "peter-parker",
-  "version": "3.5.3",
+  "version": "3.5.4",
   "description": "With great power comes great hentai",
   "main": "index.js",
   "scripts": {
@@ -42,7 +42,7 @@
     "pdfkit": "^0.12.1",
     "puppeteer-core": "^10.0.0",
     "sharp": "^0.28.3",
-    "user-agents": "^1.0.680"
+    "user-agents": "^1.0.683"
   },
   "devDependencies": {
     "eslint": "^7.27.0"
