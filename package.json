@@ -1,10 +1,18 @@
 {
-  "name": "peter-parker",
+  "name": "@chingchang9/peter-parker",
   "version": "3.6.0",
   "description": "With great power comes great hentai",
   "main": "index.js",
+  "files": [
+  	  "index.js",
+  	  "config.json",
+  	  "blank.jpg",
+  	  "scripts",
+  	  "sites"
+  ],
   "scripts": {
-    "lint": "npx eslint . --fix"
+    "lint": "npx eslint . --fix",
+    "test": "echo \"No test specified\""
   },
   "repository": {
     "type": "git",
