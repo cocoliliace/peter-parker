@@ -1,5 +1,5 @@
 const puppeteer = require("puppeteer-core");
-const downloadImage = require("../scripts/downloadImageBuffer.js");
+const downloadImage = require("../scripts/downloadImage.js");
 
 module.exports = async url => {
 	const browser = await puppeteer.launch({ executablePath } = require("../config.json")); // eslint-disable-line no-undef

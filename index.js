@@ -1,7 +1,7 @@
 require("./scripts/deserialize.js")();
 const displayProgress = require("./scripts/displayProgress.js");
-const makePdf = require("./scripts/makePdfBuffer.js");
 const formatFileName = require("./scripts/formatFileName.js");
+const makePdf = require("./scripts/makePdf.js");
 
 const sauce = process.argv[2];
 if (!sauce) return console.log("No sauce given!");
@@ -18,9 +18,11 @@ Promise.resolve(
 	sauce.includes("nhentai") || sauce.match(/^\d{1,6}$/) ? require("./sites/nhentai.js")(sauce) :
 	console.log("Invalid input")
 ).then(async ([promises, fileName, source]) => {
-	fileName = formatFileName(fileName);
-	displayProgress(promises);
-	await makePdf(promises, fileName, source);
+	if (promises) {
+		fileName = formatFileName(fileName);
+		displayProgress(promises);
+		await makePdf(promises, fileName, source);
+	}
 	process.stdout.clearLine();
 	process.stdout.cursorTo(0);
 	console.log(`Saved "${ fileName }.pdf" in ${ process.hrtime(startTime)[0] }s!`);

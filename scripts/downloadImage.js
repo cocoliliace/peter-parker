@@ -1,25 +1,26 @@
-const fs = require("fs");
 const https = require("https");
+const UserAgent = require("user-agents");
 
 module.exports = downloadImage;
 
-function downloadImage(imageUrl, filePath) {
+function downloadImage(imageUrl) {
 	return new Promise((resolve, reject) => {
-		if (fs.existsSync(filePath)) resolve(filePath);
-		const client = https.request(imageUrl, response => {
+		const client = https.request(imageUrl, {
+			method: "GET",
+			headers: {
+				"User-Agent": new UserAgent({ deviceCategory: "desktop" }).toString()
+			}
+		}, response => {
 			if (response.statusCode === 200 || response.statusCode === 204) {
 				let data = [];
 
 				response.on("data", chunk => data.push(chunk));
-				response.once("end", () => {
-					fs.writeFileSync(filePath, Buffer.concat(data));
-					resolve(filePath);
-				});
-				response.once("error", error => reject(`Error: ${ error.message }`));
+				response.once("end", () => resolve(Buffer.concat(data)));
+				response.once("error", error => reject(`\nError: ${ error.message }\n${ imageUrl }`));
 			} else if (response.statusCode === 503) {
-				resolve(downloadImage(imageUrl, filePath));
+				resolve(downloadImage(imageUrl));
 			} else {
-				reject(`Error ${ response.statusCode }: ${ response.statusMessage }`);
+				reject(imageUrl);
 			}
 		});
 

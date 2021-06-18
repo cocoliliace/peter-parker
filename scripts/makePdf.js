@@ -1,54 +1,42 @@
 const fs = require("fs");
-const sizeOf = require("image-size");
-const PDFDocument = require("pdfkit");
+const { PDFDocument } = require("pdf-lib");
+const folderPath = require("../config.json").folderPath.replace(/\/$/, "");
+const blankBuffer = Buffer.from(fs.readFileSync("./blank.jpg"));
 
-module.exports = async (title, folder) => {
-	const filePath = folder ? `${ folder }/${ title }` : title;
+module.exports = async (promises, fileName, source) => {
+	const doc = await initPdf(fileName, source);
 
-	const doc = new PDFDocument({
-		autoFirstPage: false,
-		info: {
-			Title: title.replace(/\[(.+)\] /, ""),
-			Author: title.match(/\[(.+)\]/)?.[1] || ""
-		}
-	});
-
-	if (folder && !fs.existsSync(`./responsibility/${ folder }`)) {
-		fs.mkdirSync(`./responsibility/${ folder }`);
+	let rejectedUrls = "";
+	for (let i = 0; i < promises.length; i++) {
+		await addPage(doc, await promises[i].catch(imageUrl => { // eslint-disable-line no-await-in-loop
+			rejectedUrls += `${ i } ${ imageUrl }\n`;
+			return blankBuffer;
+		})).catch(console.log);
 	}
-	doc.pipe(fs.createWriteStream(`./responsibility/${ filePath }.pdf`));
 
-	const pages = fs.readdirSync(`./${ filePath }`).length;
-	for (let page = 1; page <= pages; page++) {
-		/* eslint-disable no-await-in-loop */
-		await addPage(doc, filePath, page).catch(console.log);
-		/* eslint-ensable no-await-in-loop */
-	}
-	doc.end();
-	removeDirectory(filePath);
-	process.stdout.clearLine();
-	process.stdout.cursorTo(0);
-	console.log(`Saved ./responsibility/${ filePath }.pdf!`);
+	await serialize(rejectedUrls, fileName, doc);
 };
 
-function removeDirectory(title) {
-	fs.readdirSync(`./${ title }`).forEach(file => fs.unlinkSync(`./${ title }` + "/" + file));
-	fs.rmdirSync(`./${ title }`);
+async function initPdf(fileName, source) {
+	const doc = await PDFDocument.create();
+	doc.setTitle(fileName.replace(/\[(.+)\] /, ""));
+	doc.setAuthor(fileName.match(/\[(.+)\]/)?.[1] || "");
+	doc.setSubject(source);
+	return doc;
 }
 
-function addPage(doc, filePath, page) {
-	return new Promise((resolve, reject) => {
-		sizeOf(`./${ filePath }/${ page }`, (error, dimensions) => {
-			if (error) reject(error);
-			resolve(
-				doc.addPage({
-					margin: 0,
-					size: [dimensions.width, dimensions.height]
-				}).image(`./${ filePath }/${ page }`, {
-					width: dimensions.width,
-					height: dimensions.height
-				})
-			);
+async function addPage(doc, buffer) {
+	const image = await doc.embedJpg(buffer).catch(async () => await doc.embedPng(buffer).catch(console.log));
+	doc.addPage([image.width, image.height]).drawImage(image);
+}
+
+async function serialize(data, fileName, doc) {
+	if (data) {
+		fs.writeFileSync(`${ folderPath }/temp`, data, error => {
+			if (error) console.log(error);
 		});
-	});
+		fs.writeFileSync(`${ folderPath }/temp.pdf`, await doc.save());
+	} else {
+		fs.writeFileSync(`${ folderPath }/${ fileName }.pdf`, await doc.save());
+	}
 }
