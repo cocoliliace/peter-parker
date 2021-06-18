@@ -20,7 +20,7 @@ function downloadImage(imageUrl) {
 			} else if (response.statusCode === 503) {
 				resolve(downloadImage(imageUrl));
 			} else {
-				reject(`\nStatus ${ response.statusCode }: ${ response.statusMessage }\n${ imageUrl }`);
+				reject(imageUrl);
 			}
 		});
 

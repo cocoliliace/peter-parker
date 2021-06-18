@@ -49,7 +49,6 @@ npm install user-agents@latest # (OPTIONAL) Keeps the simulated user agents up-t
 	const browser = await puppeteer.launch();
 	```
 ## Supported sites
-
 SITE | INPUT FORMAT
 :-:|:-:
 9hentai | <span>https://</span>9hentai.to/g/**NUMBER**/
@@ -62,3 +61,11 @@ kissmanga | <span>https://</span>kissmanga.org/manga/**MANGA_NAME**
 nhentai | any number of 1 to 6 digits<br /><span>https://</span>nhentai.net/g/**NUMBER**
 hentaicafe | SITE REMOVED
 hentainexus | SITE REMOVED
+
+## Additional note
+- If any page failed to download for any reason, peter-parker would create the
+  pdf without that page, and a temp file storing the pages that failed. If this
+  happens, don't panic! Just run peter-parker again when your internet is more
+  stable and peter-parker will continue the download from where you left off.
+  However, if you would like to start on a new download, you must delete the
+  temp file, located in your specified output folder

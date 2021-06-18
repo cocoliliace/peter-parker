@@ -1,40 +1,42 @@
 const fs = require("fs");
-const sizeOf = require("image-size");
-const PDFDocument = require("pdfkit");
-const { folderPath } = require("../config.json");
+const { PDFDocument } = require("pdf-lib");
+const folderPath = require("../config.json").folderPath.replace(/\/$/, "");
+const blankBuffer = Buffer.from(fs.readFileSync("./blank.jpg"));
 
-module.exports = async (fileName, promises, source, startTime) => {
-	const doc = new PDFDocument({
-		autoFirstPage: false,
-		info: {
-			Title: fileName.replace(/\[(.+)\] /, ""),
-			Author: fileName.match(/\[(.+)\]/)?.[1] || "",
-			Subject: source
-		}
-	});
+module.exports = async (promises, fileName, source) => {
+	const doc = await initPdf(fileName, source);
 
-	doc.pipe(fs.createWriteStream(`${ folderPath }/${ fileName }.pdf`));
-
-	for (const promise of promises) {
-		await addPage(doc, await promise).catch(console.log); // eslint-disable-line no-await-in-loop
+	let rejectedUrls = "";
+	for (let i = 0; i < promises.length; i++) {
+		await addPage(doc, await promises[i].catch(imageUrl => { // eslint-disable-line no-await-in-loop
+			rejectedUrls += `${ i } ${ imageUrl }\n`;
+			return blankBuffer;
+		})).catch(console.log);
 	}
-	doc.end();
-	process.stdout.clearLine();
-	process.stdout.cursorTo(0);
-	console.log(`Saved "${ fileName }.pdf" in ${ process.hrtime(startTime)[0] }s!`);
+
+	await serialize(rejectedUrls, fileName, doc);
 };
 
-function addPage(doc, buffer) {
-	return new Promise(resolve => {
-		const dimensions = sizeOf(buffer);
-		resolve(
-			doc.addPage({
-				margin: 0,
-				size: [dimensions.width, dimensions.height]
-			}).image(buffer, {
-				width: dimensions.width,
-				height: dimensions.height
-			})
-		);
-	});
+async function initPdf(fileName, source) {
+	const doc = await PDFDocument.create();
+	doc.setTitle(fileName.replace(/\[(.+)\] /, ""));
+	doc.setAuthor(fileName.match(/\[(.+)\]/)?.[1] || "");
+	doc.setSubject(source);
+	return doc;
+}
+
+async function addPage(doc, buffer) {
+	const image = await doc.embedJpg(buffer).catch(async () => await doc.embedPng(buffer).catch(console.log));
+	doc.addPage([image.width, image.height]).drawImage(image);
+}
+
+async function serialize(data, fileName, doc) {
+	if (data) {
+		fs.writeFileSync(`${ folderPath }/temp`, data, error => {
+			if (error) console.log(error);
+		});
+		fs.writeFileSync(`${ folderPath }/temp.pdf`, await doc.save());
+	} else {
+		fs.writeFileSync(`${ folderPath }/${ fileName }.pdf`, await doc.save());
+	}
 }

@@ -1,3 +1,4 @@
+require("./scripts/deserialize.js")();
 const displayProgress = require("./scripts/displayProgress.js");
 const makePdf = require("./scripts/makePdfBuffer.js");
 const formatFileName = require("./scripts/formatFileName.js");
@@ -16,8 +17,12 @@ Promise.resolve(
 	sauce.includes("kissmanga") ? require("./sites/kissmanga.js")(sauce) :
 	sauce.includes("nhentai") || sauce.match(/^\d{1,6}$/) ? require("./sites/nhentai.js")(sauce) :
 	console.log("Invalid input")
-).then(async ([promises, fileName, url]) => {
+).then(async ([promises, fileName, source]) => {
+	fileName = formatFileName(fileName);
 	displayProgress(promises);
-	await makePdf(formatFileName(fileName), promises, url, startTime);
+	await makePdf(promises, fileName, source);
+	process.stdout.clearLine();
+	process.stdout.cursorTo(0);
+	console.log(`Saved "${ fileName }.pdf" in ${ process.hrtime(startTime)[0] }s!`);
 	console.log("Courtesy, your friendly neighbourhood Spider-Man");
 }).catch(console.log);
