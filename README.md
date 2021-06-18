@@ -1,4 +1,9 @@
 # Peter Parker
+![npm version](https://img.shields.io/npm/v/@chingchang9/peter-parker)
+![npm downloads](https://img.shields.io/npm/dt/@chingchang9/peter-parker)
+![david dependencies](https://img.shields.io/david/chingchang9/peter-parker)
+![code size](https://img.shields.io/github/languages/code-size/chingchang9/peter-parker)
+
 With great power comes great hentai! Peter Parker is a powerful web-crawler that
 sources your favourite hentai and downloads them as PDFs!
 
