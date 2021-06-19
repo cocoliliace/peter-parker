@@ -2,22 +2,6 @@
   "name": "@chingchang9/peter-parker",
   "version": "3.6.1",
   "description": "With great power comes great hentai",
-  "main": "index.js",
-  "files": [
-    "index.js",
-    "config.json",
-    "blank.jpg",
-    "scripts",
-    "sites"
-  ],
-  "scripts": {
-    "lint": "npx eslint . --fix",
-    "test": "echo \"No test specified\""
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ChingChang9/peter-parker.git"
-  },
   "keywords": [
     "hentai",
     "manga",
@@ -25,11 +9,19 @@
     "pdf",
     "nhentai",
     "kissmanga",
+    "imgur",
     "joyhentai",
     "e-hentai",
     "hentai2read",
-    "imgur"
+    "9hentai",
+    "hentaimimi"
   ],
+  "homepage": "https://github.com/ChingChang9/peter-parker#readme",
+  "bugs": {
+    "url": "https://github.com/ChingChang9/peter-parker/issues",
+    "email": "chingtheprogrammer@gmail.com"
+  },
+  "license": "ISC",
   "author": "Ching Chang",
   "contributors": [
     {
@@ -38,20 +30,29 @@
       "url": "https://www.chingchang.dev"
     }
   ],
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ChingChang9/peter-parker/issues",
-    "email": "chingtheprogrammer@gmail.com"
+  "files": [
+    "config.json",
+    "blank.jpg",
+    "scripts",
+    "sites"
+  ],
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ChingChang9/peter-parker.git"
   },
-  "homepage": "https://github.com/ChingChang9/peter-parker#readme",
+  "scripts": {
+    "lint": "npx eslint . --fix",
+    "test": "echo \"No test specified\""
+  },
   "dependencies": {
     "cheerio": "^1.0.0-rc.10",
     "pdf-lib": "^1.16.0",
     "puppeteer-core": "^10.0.0",
     "sharp": "^0.28.3",
-    "user-agents": "^1.0.687"
+    "user-agents": "^1.0.688"
   },
   "devDependencies": {
-    "eslint": "^7.27.0"
+    "eslint": "^7.29.0"
   }
 }

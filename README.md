@@ -1,11 +1,18 @@
 # Peter Parker
-![npm version](https://img.shields.io/npm/v/@chingchang9/peter-parker)
-![npm downloads](https://img.shields.io/npm/dt/@chingchang9/peter-parker)
+[![npm version](https://img.shields.io/npm/v/@chingchang9/peter-parker)](https://www.npmjs.com/package/@chingchang9/peter-parker)
+[![npm total downloads](https://img.shields.io/npm/dt/@chingchang9/peter-parker)](https://www.npmjs.com/package/@chingchang9/peter-parker)
 ![david dependencies](https://img.shields.io/david/chingchang9/peter-parker)
-![code size](https://img.shields.io/github/languages/code-size/chingchang9/peter-parker)
+[![code size](https://img.shields.io/github/languages/code-size/chingchang9/peter-parker)](https://github.com/ChingChang9/peter-parker)
 
 With great power comes great hentai! Peter Parker is a powerful web-crawler that
 sources your favourite hentai and downloads them as PDFs!
+
+## Disclaimer
+This project should only be used for saving copies of hentai that **you have
+legal access to**, so you can read them offline. Theft of content and piracy are
+not endorsed and we ask that you support the original content creators by
+purchasing their works before saving them for offline with this project. We are
+not responsible for your irresponsibility. Please don't disappoint Uncle Ben 🕷️
 
 ## Example usages
 ```bash
@@ -67,10 +74,17 @@ nhentai | any number of 1 to 6 digits<br /><span>https://</span>nhentai.net/g/**
 hentaicafe | SITE REMOVED
 hentainexus | SITE REMOVED
 
-## Additional note
+## Additional notes
 - If any page failed to download for any reason, peter-parker would create the
   pdf without that page, and a temp file storing the pages that failed. If this
   happens, don't panic! Just run peter-parker again when your internet is more
   stable and peter-parker will continue the download from where you left off.
   However, if you would like to start on a new download, you must delete the
   temp file, located in your specified output folder
+- It is recommended that you make a command line alias to run this more easily:
+  - i.e. Add `alias sauce='cd ~/path/to/peter-parker && node .'` to `~/.bashrc`
+- Peter Parker has many responsibilities, but your misuses of this project is
+  not one of them. Please make sure you've read the [disclaimer](#disclaimer)
+
+## License
+ISC
