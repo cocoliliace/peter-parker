@@ -30,12 +30,22 @@ async function addPage(doc, buffer) {
 }
 
 async function serialize(data, fileName, outputFolderPath, doc) {
-	if (data) {
-		fs.writeFileSync(`${ outputFolderPath }/temp`, data, error => {
-			if (error) console.log(error);
-		});
-		fs.writeFileSync(`${ outputFolderPath }/temp.pdf`, await doc.save());
-	} else {
-		fs.writeFileSync(`${ outputFolderPath }/${ fileName }.pdf`, await doc.save());
+	try {
+		if (data) {
+			fs.writeFileSync(`${ outputFolderPath }/temp`, data, error => {
+				if (error) console.log(error);
+			});
+			fs.writeFileSync(`${ outputFolderPath }/temp.pdf`, await doc.save());
+		} else {
+			fs.writeFileSync(`${ outputFolderPath }/${ fileName }.pdf`, await doc.save());
+		}
+	} catch(e) {
+		if (e.code === "ENOENT") {
+			process.stdout.clearLine();
+			process.stdout.cursorTo(0);
+			console.log("Failed because the output folder path you specified does not exist!");
+			process.exit(1);
+		}
+		console.dir(e.code);
 	}
 }
