@@ -15,9 +15,10 @@ module.exports = (config, input) => {
 };
 
 function resolveKey(key) {
-	if (keys.outputFolderPath.includes(key.toLowerCase())) {
+	key = key.toLowerCase();
+	if (keys.outputFolderPath.includes(key)) {
 		return "outputFolderPath";
-	} else if (keys.executablePath.includes(key.toLowerCase())) {
+	} else if (keys.executablePath.includes(key)) {
 		return "executablePath";
 	} else {
 		console.log("Invalid key");
