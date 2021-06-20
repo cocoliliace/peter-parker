@@ -7,6 +7,7 @@
     "manga",
     "downloader",
     "pdf",
+    "cli",
     "nhentai",
     "kissmanga",
     "imgur",
@@ -35,9 +36,9 @@
     "src",
     "static"
   ],
-  "main": "bin/sauce.js",
+  "main": "bin/index.js",
   "bin": {
-    "sauce": "bin/sauce.js"
+    "sauce": "bin/index.js"
   },
   "repository": {
     "type": "git",
