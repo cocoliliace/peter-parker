@@ -4,38 +4,26 @@
 ![david dependencies](https://img.shields.io/david/chingchang9/peter-parker)
 [![code size](https://img.shields.io/github/languages/code-size/chingchang9/peter-parker)](https://github.com/ChingChang9/peter-parker)
 
-With great power comes great hentai! Peter Parker is a powerful web-crawler that
-sources your favourite hentai and downloads them as PDFs!
-
-## Disclaimer
-This project should only be used for saving copies of hentai that **you have
-legal access to**, so you can read them offline. Theft of content and piracy are
-not endorsed and we ask that you support the original content creators by
-purchasing their works before saving them for offline with this project. We are
-not responsible for your irresponsibility. Please don't disappoint Uncle Ben 🕷️
+With great power comes great hentai! Peter Parker is a powerful and lightweight
+hentai downloader that offers speed, simplicity, and customization!
 
 ## Example usages
 ```bash
 # To download g/177013
-node . 177013
+sauce 177013
 # or
-node . https://nhentai.net/g/177013
+sauce https://nhentai.net/g/177013
 
 # To download Ishigami x Iino fancomics
-node . https://kissmanga.org/manga/tq922018
+sauce https://kissmanga.org/manga/tq922018
 ```
 Peter Parker supports way more sites, [listed below with their input format](#supported-sites).
-Simply run `index.js` with an acceptable input format, and get ready to shoot your webs!
+Simply run `sauce` with an acceptable input format, and get ready to shoot your webs!
 
 ## Installation
 ```bash
-git clone https://github.com/ChingChang9/peter-parker.git
-cd peter-parker
-mkdir responsibility # Your hentai will be saved here
-                     # If you want to save your hentai in a different place,
-                     # edit the `folderPath` variable in `./config.json`
-npm install
-npm install user-agents@latest # (OPTIONAL) Keeps the simulated user agents up-to-date
+npm install -g @chingchang9/peter-parker
+sauce config o=/path/to/output/folder
 ```
 #### The remaining of the installation is only necessary if you will be downloading from imgur.com
 - #### I have Chrome or Chromium installed
@@ -81,10 +69,6 @@ hentainexus | SITE REMOVED
   stable and peter-parker will continue the download from where you left off.
   However, if you would like to start on a new download, you must delete the
   temp file, located in your specified output folder
-- It is recommended that you make a command line alias to run this more easily:
-  - i.e. Add `alias sauce='cd ~/path/to/peter-parker && node .'` to `~/.bashrc`
-- Peter Parker has many responsibilities, but your misuses of this project is
-  not one of them. Please make sure you've read the [disclaimer](#disclaimer)
 
 ## License
 ISC

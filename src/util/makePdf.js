@@ -1,9 +1,8 @@
 const fs = require("fs");
 const { PDFDocument } = require("pdf-lib");
-const folderPath = require("../config.json").folderPath.replace(/\/$/, "");
-const blankBuffer = Buffer.from(fs.readFileSync("./blank.jpg"));
+const blankBuffer = Buffer.from(fs.readFileSync(`${ __dirname }/../../static/blank.jpg`));
 
-module.exports = async (promises, fileName, source) => {
+module.exports = async (promises, fileName, outputFolderPath, source) => {
 	const doc = await initPdf(fileName, source);
 
 	let rejectedUrls = "";
@@ -14,7 +13,7 @@ module.exports = async (promises, fileName, source) => {
 		})).catch(console.log);
 	}
 
-	await serialize(rejectedUrls, fileName, doc);
+	await serialize(rejectedUrls, fileName, outputFolderPath, doc);
 };
 
 async function initPdf(fileName, source) {
@@ -30,13 +29,13 @@ async function addPage(doc, buffer) {
 	doc.addPage([image.width, image.height]).drawImage(image);
 }
 
-async function serialize(data, fileName, doc) {
+async function serialize(data, fileName, outputFolderPath, doc) {
 	if (data) {
-		fs.writeFileSync(`${ folderPath }/temp`, data, error => {
+		fs.writeFileSync(`${ outputFolderPath }/temp`, data, error => {
 			if (error) console.log(error);
 		});
-		fs.writeFileSync(`${ folderPath }/temp.pdf`, await doc.save());
+		fs.writeFileSync(`${ outputFolderPath }/temp.pdf`, await doc.save());
 	} else {
-		fs.writeFileSync(`${ folderPath }/${ fileName }.pdf`, await doc.save());
+		fs.writeFileSync(`${ outputFolderPath }/${ fileName }.pdf`, await doc.save());
 	}
 }

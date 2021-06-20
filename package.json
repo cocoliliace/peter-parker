@@ -31,12 +31,14 @@
     }
   ],
   "files": [
-    "config.json",
-    "blank.jpg",
-    "scripts",
-    "sites"
+    "bin",
+    "src",
+    "static"
   ],
-  "main": "index.js",
+  "main": "bin/sauce.js",
+  "bin": {
+    "sauce": "bin/sauce.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/ChingChang9/peter-parker.git"
@@ -47,6 +49,7 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.10",
+    "conf": "^10.0.1",
     "pdf-lib": "^1.16.0",
     "puppeteer-core": "^10.0.0",
     "sharp": "^0.28.3",
