@@ -1,10 +1,10 @@
 const formatFileName = require("../src/util/formatFileName.js");
 
 module.exports = (sauce, config) => {
-	const outputFolderPath = config.get("outputFolderPath") || config.outputFolderPath;
-	if (!outputFolderPath) console.log("Output folder is not set!"); process.exit(1);
-
 	return new Promise((resolve, reject) => {
+		const outputFolderPath = config.get("outputFolderPath") || config.outputFolderPath;
+		if (!outputFolderPath) reject("Output folder is not set!");
+
 		Promise.resolve(
 			sauce.includes("9hentai") ? require("../src/sites/9hentai.js")(sauce) :
 			sauce.includes("e-hentai") ? require("../src/sites/e-hentai.js")(sauce) :
