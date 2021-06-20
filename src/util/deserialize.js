@@ -1,13 +1,15 @@
 const fs = require("fs");
-const folderPath = require("../config.json").folderPath.replace(/\/$/, "");
+const Conf = require("conf");
+const config = new Conf();
+const outputFolderPath = config.get("outputFolderPath");
 const { PDFDocument } = require("pdf-lib");
 const downloadImage = require("./downloadImage.js");
 
 module.exports = async () => {
-	if (!fs.existsSync(`${ folderPath }/temp`)) return;
+	if (!fs.existsSync(`${ outputFolderPath }/temp`)) return;
 
-	const doc = await PDFDocument.load(fs.readFileSync(`${ folderPath }/temp.pdf`));
-	const lines = fs.readFileSync(`${ folderPath }/temp`).split("\n");
+	const doc = await PDFDocument.load(fs.readFileSync(`${ outputFolderPath }/temp.pdf`));
+	const lines = fs.readFileSync(`${ outputFolderPath }/temp`).split("\n");
 
 	let rejectedUrls = "";
 	let promises = [];
@@ -30,11 +32,11 @@ async function updatePage(doc, buffer, page) {
 
 async function serialize(data, fileName, doc) {
 	if (data) {
-		fs.writeFileSync(`${ folderPath }/temp`, data, error => {
+		fs.writeFileSync(`${ outputFolderPath }/temp`, data, error => {
 			if (error) console.log(error);
 		});
-		fs.writeFileSync(`${ folderPath }/temp.pdf`, await doc.save());
+		fs.writeFileSync(`${ outputFolderPath }/temp.pdf`, await doc.save());
 	} else {
-		fs.writeFileSync(`${ folderPath }/${ fileName }.pdf`, await doc.save());
+		fs.writeFileSync(`${ outputFolderPath }/${ fileName }.pdf`, await doc.save());
 	}
 }
