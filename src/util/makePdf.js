@@ -1,6 +1,6 @@
 const fs = require("fs");
 const { PDFDocument } = require("pdf-lib");
-const blankBuffer = Buffer.from(fs.readFileSync(`${ __dirname }/../../static/blank.jpg`));
+const blankBuffer = Buffer.from(fs.readFileSync(`${ process.cwd() }/static/blank.jpg`));
 
 module.exports = async (promises, fileName, outputFolderPath, source) => {
 	const doc = await initPdf(fileName, source);
@@ -10,7 +10,7 @@ module.exports = async (promises, fileName, outputFolderPath, source) => {
 		await addPage(doc, await promises[i].catch(imageUrl => { // eslint-disable-line no-await-in-loop
 			rejectedUrls += `${ i } ${ imageUrl }\n`;
 			return blankBuffer;
-		})).catch(console.log);
+		})).catch(error => { throw error; });
 	}
 
 	await serialize(rejectedUrls, fileName, outputFolderPath, doc);
@@ -25,7 +25,9 @@ async function initPdf(fileName, source) {
 }
 
 async function addPage(doc, buffer) {
-	const image = await doc.embedJpg(buffer).catch(async () => await doc.embedPng(buffer).catch(console.log));
+	const image = await doc.embedJpg(buffer).catch(async () => {
+		return await doc.embedPng(buffer).catch(error => { throw error; });
+	});
 	doc.addPage([image.width, image.height]).drawImage(image);
 }
 
@@ -33,22 +35,18 @@ async function serialize(data, fileName, outputFolderPath, doc) {
 	try {
 		if (data) {
 			fs.writeFileSync(`${ outputFolderPath }/temp`, data, error => {
-				if (error) console.log(error);
+				if (error) throw error;
 			});
 			fs.writeFileSync(`${ outputFolderPath }/temp.pdf`, await doc.save());
 			process.stdout.clearLine();
 			process.stdout.cursorTo(0);
-			console.log("Some pages failed to download. Please run \"sauce\" again without any arguments when your internet is stable again");
+			throw "Some pages failed to download. Please run \"sauce\" again without any arguments when your internet is stable again";
 		} else {
 			fs.writeFileSync(`${ outputFolderPath }/${ fileName }.pdf`, await doc.save());
 		}
 	} catch(e) {
 		if (e.code === "ENOENT") {
-			process.stdout.clearLine();
-			process.stdout.cursorTo(0);
-			console.log("Failed because the output folder path you specified does not exist!");
-			process.exit(1);
+			throw "Failed because the output folder path you specified does not exist!";
 		}
-		console.dir(e.code);
 	}
 }

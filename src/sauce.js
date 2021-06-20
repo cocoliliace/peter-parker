@@ -14,9 +14,8 @@ module.exports = (sauce, config) => {
 			sauce.includes("joyhentai") ? require("../src/sites/joyhentai.js")(sauce) :
 			sauce.includes("kissmanga") ? require("../src/sites/kissmanga.js")(sauce, outputFolderPath) :
 			sauce.includes("nhentai") || sauce.match(/^\d{1,6}$/) ? require("../src/sites/nhentai.js")(sauce) :
-			Promise.reject("Invalid input")
+			reject("Invalid input")
 		).then(async ([promises, fileName, source]) => {
-			process.stdout.write("Fetching page...");
 			fileName = formatFileName(fileName);
 			if (promises) {
 				require("../src/util/displayProgress.js")(promises);

@@ -30,7 +30,9 @@ function downloadChapter(baseUrl, pageCount) {
 	let promises = [];
 
 	for (let page = 1; page <= pageCount; page++) {
-		promises.push(downloadImage(`${ baseUrl }${ "0".repeat(3 - page.toString().length) }${ page }.webp`).then(webpBuffer => sharp(webpBuffer).jpeg(100).toBuffer()).catch(console.log));
+		promises.push(downloadImage(`${ baseUrl }${ "0".repeat(3 - page.toString().length) }${ page }.webp`)
+			.then(webpBuffer => sharp(webpBuffer).jpeg(100).toBuffer())
+			.catch(error => { throw error; }));
 	}
 
 	return promises;

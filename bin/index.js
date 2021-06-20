@@ -26,4 +26,8 @@ require("../src/sauce.js")(process.argv[2], config).then(fileName => {
 	process.stdout.cursorTo(0);
 	console.log(`Saved "${ config.get("outputFolderPath") }/${ fileName }.pdf" in ${ process.hrtime(startTime)[0] }s!`);
 	console.log("Courtesy, your friendly neighbourhood Spider-Man");
-}).catch(console.log);
+}).catch(error => {
+	process.stdout.clearLine();
+	process.stdout.cursorTo(0);
+	console.log(error);
+});

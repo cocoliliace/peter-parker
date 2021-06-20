@@ -25,7 +25,7 @@ module.exports = async () => {
 };
 
 async function updatePage(doc, buffer, page) {
-	const image = await doc.embedJpg(buffer).catch(async () => await doc.embedPng(buffer).catch(console.log));
+	const image = await doc.embedJpg(buffer).catch(async () => await doc.embedPng(buffer).catch(error => { throw error; }));
 	doc.removePage(page);
 	doc.insertPage(page, [image.width, image.height]).drawImage(image);
 }
@@ -33,7 +33,7 @@ async function updatePage(doc, buffer, page) {
 async function serialize(data, fileName, doc) {
 	if (data) {
 		fs.writeFileSync(`${ outputFolderPath }/temp`, data, error => {
-			if (error) console.log(error);
+			if (error) throw error;
 		});
 		fs.writeFileSync(`${ outputFolderPath }/temp.pdf`, await doc.save());
 	} else {

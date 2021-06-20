@@ -33,6 +33,5 @@ function downloadChapter(baseUrl, pageCount) {
 	for (let page = 1; page <= pageCount; page++) {
 		promises.push(downloadImage(`${ baseUrl }${ "0".repeat(3 - page.toString().length) }${ page }.jpg`).catch(console.log));
 	}
-
 	return promises;
 }

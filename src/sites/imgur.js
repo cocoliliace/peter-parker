@@ -2,7 +2,7 @@ const puppeteer = require("puppeteer-core");
 const downloadImage = require("../util/downloadImage.js");
 
 module.exports = async (url, executablePath) => {
-	const browser = await puppeteer.launch({ executablePath }); // eslint-disable-line no-undef
+	const browser = await puppeteer.launch({ executablePath });
 	const page = await browser.newPage();
 	await page.goto(url);
 	await page.click(".btn-wall--yes").catch(() => {});
