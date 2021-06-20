@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-<!-- Use Discussions for questions: https://github.com/ChingChang9/peter-parker/discussions -->
+<!-- Please use Discussions for questions: https://github.com/ChingChang9/peter-parker/discussions -->
 
 **Steps to Reproduce**
 Steps to reproduce the behavior

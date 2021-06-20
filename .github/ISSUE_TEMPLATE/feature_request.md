@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-<!-- Use Discussions for questions: https://github.com/ChingChang9/peter-parker/discussions -->
+<!-- Please use Discussions for questions: https://github.com/ChingChang9/peter-parker/discussions -->
 
 **Is your feature request related to a problem? Please describe**
 A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
