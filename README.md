@@ -5,55 +5,57 @@
 ![david dependencies](https://img.shields.io/david/ChingChang9/peter-parker)
 [![code size](https://img.shields.io/github/languages/code-size/ChingChang9/peter-parker)](https://github.com/ChingChang9/peter-parker)
 
-With great power comes great hentai! Peter Parker is a powerful web-crawler that
-sources your favourite hentai and downloads them as PDFs!
-
-## Disclaimer
-This project should only be used for saving copies of hentai that **you have
-legal access to**, so you can read them offline. Theft of content and piracy are
-not endorsed and we ask that you support the original content creators by
-purchasing their works before saving them for offline with this project. We are
-not responsible for your irresponsibility. Please don't disappoint Uncle Ben 🕷️
+With great power comes great hentai! Peter Parker is a powerful and lightweight
+hentai downloader that offers speed, simplicity, and versatility!
 
 ## Example usages
+### In command line
 ```bash
 # To download g/177013
-node . 177013
+sauce 177013
 # or
-node . https://nhentai.net/g/177013
+sauce https://nhentai.net/g/177013
 
 # To download Ishigami x Iino fancomics
-node . https://kissmanga.org/manga/tq922018
+sauce https://kissmanga.org/manga/tq922018
+```
+### In code
+UPDATE: Currently unstable. Use with caution and check back in a few days
+```js
+const sauce = require("@chingchang9/peter-parker");
+
+sauce("177013", {
+    outputFolderPath: "./myFolder"
+}).then(title => console.log(`Downloaded ${ title }`)); // Downloaded [ShindoLA] METAMORPHOSIS
 ```
 Peter Parker supports way more sites, [listed below with their input format](#supported-sites).
-Simply run `index.js` with an acceptable input format, and get ready to shoot your webs!
 
 ## Installation
 ```bash
-git clone https://github.com/ChingChang9/peter-parker.git
-cd peter-parker
-mkdir responsibility # Your hentai will be saved here
-                     # If you want to save your hentai in a different place,
-                     # edit the `folderPath` variable in `./config.json`
-npm install
-npm install user-agents@latest # (OPTIONAL) Keeps the simulated user agents up-to-date
+npm install -g @chingchang9/peter-parker
+sauce config o=/your/folder/path
 ```
 #### The remaining of the installation is only necessary if you will be downloading from imgur.com
 - #### I have Chrome or Chromium installed
-	Set the executable path in `./config.json` to your local path.
+	Set the executable path to your local path.
 	It defaults to a typical MacOS' path, so if you are on MacOS, you can likely
 	skip this step.
-	If you are getting errors, or are not on MacOS, you can get your executable
-	path by typing `chrome://version` in the address bar of your
-	Chrome/Chromium, or [refer to this StackOverflow post for more assistance](https://stackoverflow.com/questions/17736215/universal-path-to-chrome-exe).
+
+	If you are getting errors, or are not on MacOS, you can first check your
+	executable path by typing `chrome://version` in the address bar of your
+	Chrome/Chromium, then set it with `sauce config e=/your/executable/path`.
+	Check out [this StackOverflow post if you need more help getting finding your
+	executable path](https://stackoverflow.com/questions/17736215/universal-path-to-chrome-exe).
 
 - #### I do NOT have Chrome or Chromium installed
-	Run the following commands
+	**UPDATE: This process is a bit complicated and an alternative method will be coming soon. In the mean time please feel free to [give me suggestions of how it should be done](https://github.com/ChingChang9/peter-parker/issues), or [implement it yourself](https://github.com/ChingChang9/peter-parker/pulls).**
+
+	Go into the source code of peter-parker and run the following commands
 	```bash
 	npm uninstall puppeteer-core
 	npm install puppeteer
 	```
-	then change the first line of `./sites/imgur.js` to
+	then change the first line of `./src/sites/imgur.js` to
 	```js
 	const puppeteer = require("puppeteer");
 	```
@@ -61,6 +63,50 @@ npm install user-agents@latest # (OPTIONAL) Keeps the simulated user agents up-t
 	```js
 	const browser = await puppeteer.launch();
 	```
+## Documentation
+### Using in command line
+##### `sauce <url>` where `<url>` is a valid url
+- Download the hentai on that url
+- If you receive "Invalid input!", check that the url is in one of the [input
+  formats specified under the supported sites](#supported-sites)
+
+##### `sauce`
+- Sometimes a page might fail to download due to bad internet. When this
+  happens, peter-parker creates the pdf without that page, and a temp file
+  storing the pages that failed. Running `sauce` without any arguments checks
+  for the temp file and continues the download from where you left off
+- Running this command when there is no temp file would terminate the program
+  with a "No sauce given!" message
+- If you would like to start on a new download and abort the failed download,
+  you must delete the temp file, located in your specified output folder
+
+##### `sauce config`
+- Get the path of the config file. You should not be editing this file manually. See the commands below for how to edit it
+
+##### `sauce config outputFolderPath`
+- Get the value of `outputFilePath` in config
+- **Default**: No default value, which means you must set one the first time you
+install the package
+- **Aliases**: `outputFolder`, `outputPath`, `output`, and `o`. Case insensitive
+
+##### `sauce config outputFolderPath=/your/folder/path`
+- Set the value of `outputFolderPath` in config
+- **Aliases**: Same as above
+
+##### `sauce config executablePath`
+- Get the value of `executablePath` in config
+- **Default**: `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`
+- **Aliases**: `executablePath`, `executable`, `execPath`, `exec`, and `e`. Case
+insensitive
+
+##### `sauce config executablePath=/your/executable/path`
+- Set the value of `executablePath` in config
+- **Aliases**: Same as above
+
+### Using in code
+Documentation in progress! In the mean time, you can [reach out to me](https://github.com/ChingChang9/peter-parker/discussions)
+for specific questions :)
+
 ## Supported sites
 SITE | INPUT FORMAT
 :-:|:-:
@@ -74,18 +120,6 @@ kissmanga | <span>https://</span>kissmanga.org/manga/**MANGA_NAME**
 nhentai | any number of 1 to 6 digits<br /><span>https://</span>nhentai.net/g/**NUMBER**
 hentaicafe | SITE REMOVED
 hentainexus | SITE REMOVED
-
-## Additional notes
-- If any page failed to download for any reason, peter-parker would create the
-  pdf without that page, and a temp file storing the pages that failed. If this
-  happens, don't panic! Just run peter-parker again when your internet is more
-  stable and peter-parker will continue the download from where you left off.
-  However, if you would like to start on a new download, you must delete the
-  temp file, located in your specified output folder
-- It is recommended that you make a command line alias to run this more easily:
-  - i.e. Add `alias sauce='cd ~/path/to/peter-parker && node .'` to `~/.bashrc`
-- Peter Parker has many responsibilities, but your misuses of this project is
-  not one of them. Please make sure you've read the [disclaimer](#disclaimer)
 
 ## License
 ISC

@@ -4,6 +4,7 @@ const cheerio = require("cheerio");
 
 module.exports = url => {
 	return new Promise((resolve, reject) => {
+		process.stdout.write("Fetching page...");
 		const client = https.request(url, {
 			method: "GET",
 			headers: {

@@ -1,8 +1,8 @@
 const puppeteer = require("puppeteer-core");
-const downloadImage = require("../scripts/downloadImage.js");
+const downloadImage = require("../util/downloadImage.js");
 
-module.exports = async url => {
-	const browser = await puppeteer.launch({ executablePath } = require("../config.json")); // eslint-disable-line no-undef
+module.exports = async (url, executablePath) => {
+	const browser = await puppeteer.launch({ executablePath });
 	const page = await browser.newPage();
 	await page.goto(url);
 	await page.click(".btn-wall--yes").catch(() => {});

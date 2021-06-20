@@ -1,5 +1,5 @@
-const getPage = require("../scripts/getPage");
-const downloadImage = require("../scripts/downloadImage.js");
+const getPage = require("../util/getPage");
+const downloadImage = require("../util/downloadImage.js");
 
 module.exports = async url => {
 	const [baseUrl, fileName, pageCount] = await getInfo(url);
@@ -33,6 +33,5 @@ function downloadChapter(baseUrl, pageCount) {
 	for (let page = 1; page <= pageCount; page++) {
 		promises.push(downloadImage(`${ baseUrl }${ "0".repeat(3 - page.toString().length) }${ page }.jpg`).catch(console.log));
 	}
-
 	return promises;
 }
