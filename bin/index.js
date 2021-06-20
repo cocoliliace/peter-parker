@@ -20,4 +20,10 @@ const config = new Conf({
 
 if (process.argv[2] === "config") return require("./config.js")(config, process.argv[3]);
 
-require("./sauce.js")(process.argv[2], config);
+const startTime = process.hrtime();
+require("../src/sauce.js")(process.argv[2], config).then(fileName => {
+	process.stdout.clearLine();
+	process.stdout.cursorTo(0);
+	console.log(`Saved "${ config.get("outputFolderPath") }/${ fileName }.pdf" in ${ process.hrtime(startTime)[0] }s!`);
+	console.log("Courtesy, your friendly neighbourhood Spider-Man");
+}).catch(console.log);

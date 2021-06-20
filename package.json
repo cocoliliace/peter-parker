@@ -36,7 +36,7 @@
     "src",
     "static"
   ],
-  "main": "bin/index.js",
+  "main": "src/sauce.js",
   "bin": {
     "sauce": "bin/index.js"
   },

@@ -8,6 +8,7 @@ With great power comes great hentai! Peter Parker is a powerful and lightweight
 hentai downloader that offers speed, simplicity, and versatility!
 
 ## Example usages
+#### In command line
 ```bash
 # To download g/177013
 sauce 177013
@@ -17,8 +18,16 @@ sauce https://nhentai.net/g/177013
 # To download Ishigami x Iino fancomics
 sauce https://kissmanga.org/manga/tq922018
 ```
+#### In code
+UPDATE: Currently unstable. Use with caution and check back in a few days
+```js
+const peter = require("@chingchang9/peter-parker");
+
+peter("177013", {
+    outputFolderPath: "./myFolder"
+}).then(hentaiTitle => console.log(`Downloaded ${ hentaiTitle }`)); // Downloaded [ShindoLA] METAMORPHOSIS
+```
 Peter Parker supports way more sites, [listed below with their input format](#supported-sites).
-Simply run `sauce` with an acceptable input format, and get ready to shoot your webs!
 
 ## Installation
 ```bash
@@ -93,8 +102,9 @@ insensitive
 - Set the value of `executablePath` in config
 - **Aliases**: Same as above
 
-### Use in code
-Coming soon!
+### Using in code
+Documentation in progress! In the mean time, you can [reach out to me](https://github.com/ChingChang9/peter-parker/discussions)
+for specific questions :)
 
 ## Supported sites
 SITE | INPUT FORMAT

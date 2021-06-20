@@ -38,7 +38,7 @@ async function serialize(data, fileName, outputFolderPath, doc) {
 			fs.writeFileSync(`${ outputFolderPath }/temp.pdf`, await doc.save());
 			process.stdout.clearLine();
 			process.stdout.cursorTo(0);
-			console.log(`Some pages failed to download. Please run "sauce" again without any arguments when your internet is stable again`);
+			console.log("Some pages failed to download. Please run \"sauce\" again without any arguments when your internet is stable again");
 		} else {
 			fs.writeFileSync(`${ outputFolderPath }/${ fileName }.pdf`, await doc.save());
 		}
