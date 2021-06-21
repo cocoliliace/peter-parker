@@ -4,11 +4,11 @@ const downloadImage = require("../util/downloadImage.js");
 const displayProgress = require("../util/displayProgress.js");
 const makePdf = require("../util/makePdf.js");
 
-module.exports = async (url, outputFolderPath) => {
+module.exports = async (url, outputDirectory) => {
 	const [title, chapters] = await getInfo(url);
 
-	if (!fs.existsSync(`${ outputFolderPath }/${ title }`)) {
-		fs.mkdirSync(`${ outputFolderPath }/${ title }`);
+	if (!fs.existsSync(`${ outputDirectory }/${ title }`)) {
+		fs.mkdirSync(`${ outputDirectory }/${ title }`);
 	}
 
 	let chapterPromises = [];
@@ -19,7 +19,7 @@ module.exports = async (url, outputFolderPath) => {
 		if (chapters[key].attribs?.href) {
 			const chapterName = chapters[key].attribs.href.match(/chapter_\d+(.\d)?$/)[0];
 			const chapterUrl = `https://kissmanga.org${ chapters[key].attribs.href }`;
-			chapterPromises.push(downloadChapter(chapterUrl, chapterName, outputFolderPath, imagePromises, pdfPromises));
+			chapterPromises.push(downloadChapter(chapterUrl, chapterName, outputDirectory, imagePromises, pdfPromises));
 		}
 	}
 
@@ -38,7 +38,7 @@ async function getInfo(url) {
 	return [title, chapters];
 }
 
-async function downloadChapter(url, fileName, outputFolderPath, imagePromises, pdfPromises) {
+async function downloadChapter(url, fileName, outputDirectory, imagePromises, pdfPromises) {
 	const $ = await getPage(url).catch(error => { throw error; });
 	const pages = $("#centerDivVideo");
 	const pageCount = pages.children().length;
@@ -49,5 +49,5 @@ async function downloadChapter(url, fileName, outputFolderPath, imagePromises, p
 		promises.push(promise);
 		imagePromises.push(promise);
 	}
-	pdfPromises.push(makePdf(promises, fileName, outputFolderPath, url));
+	pdfPromises.push(makePdf(promises, fileName, outputDirectory, url));
 }

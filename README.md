@@ -1,8 +1,9 @@
 # Peter Parker
 [![npm version](https://img.shields.io/npm/v/@chingchang9/peter-parker)](https://www.npmjs.com/package/@chingchang9/peter-parker)
-[![npm total downloads](https://img.shields.io/npm/dt/@chingchang9/peter-parker)](https://www.npmjs.com/package/@chingchang9/peter-parker)
-![david dependencies](https://img.shields.io/david/chingchang9/peter-parker)
-[![code size](https://img.shields.io/github/languages/code-size/chingchang9/peter-parker)](https://github.com/ChingChang9/peter-parker)
+[![npm total downloads](https://img.shields.io/npm/dw/@chingchang9/peter-parker)](https://www.npmjs.com/package/@chingchang9/peter-parker)
+[![Codecov coverage](https://img.shields.io/codecov/c/github/ChingChang9/peter-parker)](https://codecov.io/gh/ChingChang9/peter-parker)
+![david dependencies](https://img.shields.io/david/ChingChang9/peter-parker)
+[![code size](https://img.shields.io/github/languages/code-size/ChingChang9/peter-parker)](https://github.com/ChingChang9/peter-parker)
 
 With great power comes great hentai! Peter Parker is a powerful and lightweight
 hentai downloader that offers speed, simplicity, and versatility!
@@ -18,22 +19,40 @@ sauce https://nhentai.net/g/177013
 # To download Ishigami x Iino fancomics
 sauce https://kissmanga.org/manga/tq922018
 ```
+
 ### In code
 UPDATE: Currently unstable. Use with caution and check back in a few days
 ```js
 const sauce = require("@chingchang9/peter-parker");
 
 sauce("177013", {
-    outputFolderPath: "./myFolder"
+    outputDirectory: "./myFolder"
 }).then(title => console.log(`Downloaded ${ title }`)); // Downloaded [ShindoLA] METAMORPHOSIS
 ```
 Peter Parker supports way more sites, [listed below with their input format](#supported-sites).
 
+## What's new in v5.0.0
+#### Breaking changes
+- `outputFolderPath` has been renamed to `outputDirectory`
+- Config variables now need the `--` prefix. [Check out their aliases in the
+  documentation](#sauce-config---outputDirectory)
+  - For example, `sauce config --executablePath` to get the `executablePath`
+    variable, and `sauce config --outputDirectory=""` to set `outputDirectory`
+    to `""`
+#### Behaviour changes
+- `outputFolderPath` is no longer a required field. When unspecified,
+  peter-parker downloads to the same directory as where the command is run
+- peter-parker now checks the existence and permission to write on the output
+  directory before fetching any pages
+#### Bug fixes
+- Deserialization should work properly now
+
 ## Installation
 ```bash
 npm install -g @chingchang9/peter-parker
-sauce config o=/your/folder/path
+sauce config -o=/your/folder/path # if you want to download to a specific folder
 ```
+
 #### The remaining of the installation is only necessary if you will be downloading from imgur.com
 - #### I have Chrome or Chromium installed
 	Set the executable path to your local path.
@@ -62,10 +81,13 @@ sauce config o=/your/folder/path
 	```js
 	const browser = await puppeteer.launch();
 	```
+
 ## Documentation
 ### Using in command line
 ##### `sauce <url>` where `<url>` is a valid url
-- Download the hentai on that url
+- Download the hentai at that url
+- The hentai gets downloaded to the current directory, unless `outputDirectory`
+  is set
 - If you receive "Invalid input!", check that the url is in one of the [input
   formats specified under the supported sites](#supported-sites)
 
@@ -80,26 +102,30 @@ sauce config o=/your/folder/path
   you must delete the temp file, located in your specified output folder
 
 ##### `sauce config`
-- Get the path of the config file. You should not be editing this file manually. See the commands below for how to edit it
+- Get the path of the config file. You should not be editing this file manually.
+  See the commands below for how to edit it
 
-##### `sauce config outputFolderPath`
-- Get the value of `outputFilePath` in config
-- **Default**: No default value, which means you must set one the first time you
-install the package
-- **Aliases**: `outputFolder`, `outputPath`, `output`, and `o`. Case insensitive
+##### `sauce config --outputDirectory`
+- Get the value of `outputDirectory` in config
+- **Default**: If no value is specified, all hentai get downloaded to the
+  directory where the command is run
+- **Aliases**: `--output`, and `-o`. Case insensitive
 
-##### `sauce config outputFolderPath=/your/folder/path`
-- Set the value of `outputFolderPath` in config
+##### `sauce config --outputDirectory=/your/folder/path`
+- Set the value of `outputDirectory` in config
+- Set this to `""` if you want to download to wherever the command is run
 - **Aliases**: Same as above
 
-##### `sauce config executablePath`
+##### `sauce config --executablePath`
 - Get the value of `executablePath` in config
+- You need to set this to the path of your Chrome/Chromium executable only if
+  you are downloading from imgur.com
 - **Default**: `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`
-- **Aliases**: `executablePath`, `executable`, `execPath`, `exec`, and `e`. Case
-insensitive
+- **Aliases**: `--executablePath`, `--execPath`, and `-e`. Case insensitive
 
-##### `sauce config executablePath=/your/executable/path`
+##### `sauce config --executablePath=/your/executable/path`
 - Set the value of `executablePath` in config
+- Only required if you are downloading from imgur.com
 - **Aliases**: Same as above
 
 ### Using in code

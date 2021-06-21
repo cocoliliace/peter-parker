@@ -1,6 +1,6 @@
 const keys = {
-	outputFolderPath: ["outputfolderpath", "outputfolder", "outputpath", "output", "o"],
-	executablePath: ["executablepath", "executable", "execpath", "exec", "e"]
+	outputDirectory: ["--outputdirectory", "--output", "-o"],
+	executablePath: ["--executablepath", "--execPath", "-e"]
 };
 
 module.exports = (config, input) => {
@@ -16,8 +16,8 @@ module.exports = (config, input) => {
 
 function resolveKey(key) {
 	key = key.toLowerCase();
-	if (keys.outputFolderPath.includes(key)) {
-		return "outputFolderPath";
+	if (keys.outputDirectory.includes(key)) {
+		return "outputDirectory";
 	} else if (keys.executablePath.includes(key)) {
 		return "executablePath";
 	} else {
