@@ -34,7 +34,8 @@
   "files": [
     "bin",
     "src",
-    "static"
+    "static",
+    "config.json"
   ],
   "main": "src/sauce.js",
   "bin": {
@@ -50,7 +51,6 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.10",
-    "conf": "^10.0.1",
     "pdf-lib": "^1.16.0",
     "puppeteer-core": "^10.0.0",
     "sharp": "^0.28.3",

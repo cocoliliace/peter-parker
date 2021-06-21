@@ -1,7 +1,7 @@
 const fs = require("fs");
 const { PDFDocument } = require("pdf-lib");
 const serialize = require("./serialize.js");
-const blankBuffer = Buffer.from(fs.readFileSync(`${ process.cwd() }/static/blank.jpg`));
+const blankBuffer = Buffer.from(fs.readFileSync(`${ __dirname }/../../static/blank.jpg`));
 
 module.exports = async (promises, fileName, outputDirectory, source) => {
 	const doc = await initPdf(fileName, source);
