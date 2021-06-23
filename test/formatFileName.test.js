@@ -35,3 +35,7 @@ test("two titles", () => {
 test("one tag no author", () => {
 	expect(formatFileName("COMIC Anthurium 2021-06 [Digital]")).toBe("COMIC Anthurium 2021-06");
 });
+
+test("no space before tag", () => {
+	expect(formatFileName("[laliberte] 生日[一只麻利的鸽子汉化]")).toBe("[laliberte] 生日");
+});

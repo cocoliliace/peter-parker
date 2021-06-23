@@ -16,14 +16,15 @@ require("fs").access(config.outputDirectory, 2, error => {
 	else if (error) return console.log("The output directory is read-only");
 });
 
+const readline = require("readline");
 const startTime = process.hrtime();
 require("../src/sauce.js")(process.argv[2], config).then(fileName => {
-	process.stdout.clearLine();
-	process.stdout.cursorTo(0);
+	readline.clearLine(process.stdout, 0);
+	readline.cursorTo(process.stdout, 0);
 	console.log(`Saved "${ config.outputDirectory }/${ fileName }.pdf" in ${ process.hrtime(startTime)[0] }s!`);
 	console.log("Courtesy, your friendly neighbourhood Spider-Man");
 }).catch(error => {
-	process.stdout.clearLine();
-	process.stdout.cursorTo(0);
+	readline.clearLine(process.stdout, 0);
+	readline.cursorTo(process.stdout, 0);
 	console.log(error);
 });

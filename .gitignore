@@ -1,4 +1,4 @@
 .DS_Store
 node_modules
 coverage
-config.json
+test/files

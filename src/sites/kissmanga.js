@@ -7,8 +7,9 @@ const makePdf = require("../util/makePdf.js");
 module.exports = async (url, outputDirectory) => {
 	const [title, chapters] = await getInfo(url);
 
-	if (!fs.existsSync(`${ outputDirectory }/${ title }`)) {
-		fs.mkdirSync(`${ outputDirectory }/${ title }`);
+	outputDirectory += "/" + title;
+	if (!fs.existsSync(outputDirectory)) {
+		fs.mkdirSync(outputDirectory);
 	}
 
 	let chapterPromises = [];
@@ -17,7 +18,7 @@ module.exports = async (url, outputDirectory) => {
 
 	for (const key in chapters) {
 		if (chapters[key].attribs?.href) {
-			const chapterName = chapters[key].attribs.href.match(/chapter_\d+(.\d)?$/)[0];
+			const chapterName = chapters[key].attribs.href.match(/chapter[_-]\d+(.\d)?$/)[0];
 			const chapterUrl = `https://kissmanga.org${ chapters[key].attribs.href }`;
 			chapterPromises.push(downloadChapter(chapterUrl, chapterName, outputDirectory, imagePromises, pdfPromises));
 		}
