@@ -1,8 +1,9 @@
 const fs = require("fs");
 const { PDFDocument } = require("pdf-lib");
-const blankBuffer = Buffer.from(fs.readFileSync(`${ process.cwd() }/static/blank.jpg`));
+const serialize = require("./serialize.js");
+const blankBuffer = Buffer.from(fs.readFileSync(`${ __dirname }/../../static/blank.jpg`));
 
-module.exports = async (promises, fileName, outputFolderPath, source) => {
+module.exports = async (promises, fileName, outputDirectory, source) => {
 	const doc = await initPdf(fileName, source);
 
 	let rejectedUrls = "";
@@ -13,7 +14,7 @@ module.exports = async (promises, fileName, outputFolderPath, source) => {
 		})).catch(error => { throw error; });
 	}
 
-	await serialize(rejectedUrls, fileName, outputFolderPath, doc);
+	await serialize(rejectedUrls, fileName, outputDirectory, doc);
 };
 
 async function initPdf(fileName, source) {
@@ -29,24 +30,4 @@ async function addPage(doc, buffer) {
 		return await doc.embedPng(buffer).catch(error => { throw error; });
 	});
 	doc.addPage([image.width, image.height]).drawImage(image);
-}
-
-async function serialize(data, fileName, outputFolderPath, doc) {
-	try {
-		if (data) {
-			fs.writeFileSync(`${ outputFolderPath }/temp`, data, error => {
-				if (error) throw error;
-			});
-			fs.writeFileSync(`${ outputFolderPath }/temp.pdf`, await doc.save());
-			process.stdout.clearLine();
-			process.stdout.cursorTo(0);
-			throw "Some pages failed to download. Please run \"sauce\" again without any arguments when your internet is stable again";
-		} else {
-			fs.writeFileSync(`${ outputFolderPath }/${ fileName }.pdf`, await doc.save());
-		}
-	} catch(e) {
-		if (e.code === "ENOENT") {
-			throw "Failed because the output folder path you specified does not exist!";
-		}
-	}
 }

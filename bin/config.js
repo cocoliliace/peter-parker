@@ -1,27 +1,36 @@
+const fs = require("fs");
+
 const keys = {
-	outputFolderPath: ["outputfolderpath", "outputfolder", "outputpath", "output", "o"],
-	executablePath: ["executablepath", "executable", "execpath", "exec", "e"]
+	outputDirectory: ["--outputdirectory", "--output", "-o"],
+	executablePath: ["--executablepath", "--execPath", "-e"]
 };
 
 module.exports = (config, input) => {
-	if (!input) return console.log(config.path);
+	if (!input) return console.log(__dirname.split("/").slice(0, -1).join("/"));
 
 	if (input.includes("=")) {
 		const [key, value] = input.split("=");
-		config.set(resolveKey(key), value.replace(/\/$/, ""));
+		config[resolveKey(key)] = value.replace(/\/$/, "");
+		saveConfig(config);
 	} else {
-		console.log(config.get(resolveKey(input)));
+		console.log(config[resolveKey(input)]);
 	}
 };
 
 function resolveKey(key) {
 	key = key.toLowerCase();
-	if (keys.outputFolderPath.includes(key)) {
-		return "outputFolderPath";
+	if (keys.outputDirectory.includes(key)) {
+		return "outputDirectory";
 	} else if (keys.executablePath.includes(key)) {
 		return "executablePath";
 	} else {
 		console.log("Invalid key");
 		process.exit(1);
 	}
+}
+
+function saveConfig(config) {
+	fs.writeFile(`${ __dirname }/../config.json`, JSON.stringify(config, null, "	"), error => {
+		if (error) throw error;
+	});
 }

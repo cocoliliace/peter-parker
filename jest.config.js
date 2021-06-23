@@ -1,4 +1,4 @@
 module.exports = {
-  coverageDirectory: "./coverage/",
-  collectCoverage: true
+	coverageDirectory: "./coverage/",
+	collectCoverage: true
 };

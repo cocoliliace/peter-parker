@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Github discussions
+    url: https://github.com/ChingChang9/peter-parker/discussions
+    about: Please use Discussions for questions and support requests
