@@ -11,6 +11,11 @@ if (!process.argv[2]) {
 	return console.log("No sauce given!");
 }
 
+require("fs").access(config.outputDirectory, 2, error => {
+	if (error?.code === "ENOENT") return console.log("The output directory doesn't exist");
+	else if (error) return console.log("The output directory is read-only");
+});
+
 const startTime = process.hrtime();
 require("../src/sauce.js")(process.argv[2], config).then(fileName => {
 	process.stdout.clearLine();
@@ -21,5 +26,4 @@ require("../src/sauce.js")(process.argv[2], config).then(fileName => {
 	process.stdout.clearLine();
 	process.stdout.cursorTo(0);
 	console.log(error);
-	if (error.startsWith("The output directory")) process.exit(1);
 });

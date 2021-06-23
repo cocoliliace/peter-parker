@@ -13,6 +13,7 @@ module.exports = async url => {
 async function getInfo(url) {
 	const $ = await getPage(url).catch(error => { throw error; });
 	const fileName = $("#gn").text();
+	if (!fileName) throw "Sauce not found!";
 	const previewPages = $("table.ptt tr").children().length - 2;
 
 	return [fileName, previewPages];

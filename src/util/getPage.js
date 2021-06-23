@@ -25,6 +25,6 @@ module.exports = url => {
 		});
 
 		client.end();
-		client.once("error", reject);
+		client.once("error", () => reject("Sauce not found!"));
 	});
 };
