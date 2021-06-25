@@ -38,6 +38,5 @@ function downloadChapter(pages, pageCount) {
 		const imageUrl = pages.eq(page).children().eq(0).children().eq(0).attr("data-src").replace("t.", "i.").replace("t.", ".");
 		promises.push(downloadImage(imageUrl).catch(console.log));
 	}
-
 	return promises;
 }

@@ -32,10 +32,26 @@ test("two titles", () => {
 	expect(formatFileName("[Nori5rou] Imaizumin-chi wa Douyara Gal no Tamariba ni Natteru Rashii 2 | IMAIZUMI BRINGS ALL THE GYARUS TO HIS HOUSE 2")).toBe("[Nori5rou] IMAIZUMI BRINGS ALL THE GYARUS TO HIS HOUSE 2");
 });
 
-test("one tag no author", () => {
-	expect(formatFileName("COMIC Anthurium 2021-06 [Digital]")).toBe("COMIC Anthurium 2021-06");
+test("front comic, one tag no author", () => {
+	expect(formatFileName("COMIC Anthurium 2021-06 [Digital]")).toBe("Anthurium 2021-06");
 });
 
 test("no space before tag", () => {
 	expect(formatFileName("[laliberte] 生日[一只麻利的鸽子汉化]")).toBe("[laliberte] 生日");
+});
+
+test("front tag, two titles, end bracket, and multiple tags", () => {
+	expect(formatFileName("(Shotaket 12) [Rorororomo (Makita Masaki)] Chikai | My Oath (Shounen Iro Zukan 5 ~Shoujosou 2~) [English] [NewsMedia] [Decensored]")).toBe("[Rorororomo (Makita Masaki)] My Oath (Shounen Iro Zukan 5 ~Shoujosou 2~)");
+});
+
+test("front comic with no bracket", () => {
+	expect(formatFileName("Comic Rin Vol. 19 [2006-07]")).toBe("Rin Vol. 19");
+});
+
+test("no space after artist", () => {
+	expect(formatFileName("[タリホウ]夏休み明け学校に行")).toBe("[タリホウ] 夏休み明け学校に行");
+});
+
+test("escape forward slash, no title", () => {
+	expect(formatFileName("Fate/Grand Order")).toBe("Fate∕Grand Order");
 });

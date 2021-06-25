@@ -1,1 +1,1 @@
-module.exports = fileName => fileName.replace(/^\(.{1,16}\) /, "").replace(/\.?((.)(\[|\{|\(COMIC).{1,24}(\]|\}|\)))+$/, "$2").replace(/\].+\| /, "] ").trim();
+module.exports = fileName => fileName.replace(/^(\(.+?\)|comic) /i, "").replace(/\.?((.)(\[|\{|\(comic).+?(\]|\}|\)))+$/i, "$2").replace(/\].+\| /, "] ").replace(/(^\[.+?\](?! ))/, "$1 ").replace(/\//g, "∕").trim();
