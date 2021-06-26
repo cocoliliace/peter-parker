@@ -1,4 +1,6 @@
 module.exports = {
 	coverageDirectory: "./coverage/",
-	collectCoverage: true
+	collectCoverage: true,
+	globalSetup: "./test/setup.js",
+	globalTeardown: "./test/teardown.js"
 };

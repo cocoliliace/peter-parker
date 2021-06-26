@@ -1,4 +1,5 @@
 const fs = require("fs");
+const readline = require("readline");
 
 module.exports = async (data, fileName, outputDirectory, doc) => {
 	if (data) {
@@ -6,9 +7,9 @@ module.exports = async (data, fileName, outputDirectory, doc) => {
 			if (error) throw error;
 		});
 		fs.writeFileSync(`${ outputDirectory }/temp.pdf`, await doc.save());
-		process.stdout.clearLine();
-		process.stdout.cursorTo(0);
-		throw "Some pages failed to download. Please run \"sauce\" again without any arguments when your internet is stable again";
+		readline.clearLine(process.stdout, 0);
+		readline.cursorTo(process.stdout, 0);
+		return Promise.reject("Some pages failed to download");
 	} else {
 		fs.writeFileSync(`${ outputDirectory }/${ fileName }.pdf`, await doc.save());
 	}

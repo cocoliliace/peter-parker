@@ -1,9 +1,12 @@
 const https = require("https");
+const readline = require("readline");
 const UserAgent = require("user-agents");
 const cheerio = require("cheerio");
 
 module.exports = url => {
 	return new Promise((resolve, reject) => {
+		readline.clearLine(process.stdout, 0);
+		readline.cursorTo(process.stdout, 0);
 		process.stdout.write("Fetching page...");
 		const client = https.request(url, {
 			method: "GET",
@@ -25,6 +28,6 @@ module.exports = url => {
 		});
 
 		client.end();
-		client.once("error", reject);
+		client.once("error", () => reject("Sauce not found!"));
 	});
 };

@@ -14,7 +14,7 @@ module.exports = async (promises, fileName, outputDirectory, source) => {
 		})).catch(error => { throw error; });
 	}
 
-	await serialize(rejectedUrls, fileName, outputDirectory, doc);
+	await serialize(rejectedUrls, fileName, outputDirectory, doc).catch(error => error);
 };
 
 async function initPdf(fileName, source) {

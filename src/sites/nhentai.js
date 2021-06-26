@@ -26,7 +26,7 @@ async function getInfo(url) {
 			.split(" ").map(word => `${ word.substring(0,1).toUpperCase() }${ word.substring(1) }`).join(" ");
 	}
 	const artist = artistField ? `${ artistField[0] } ` : artistTag ? `[${ artistTag }] ` : "";
-	const title = $("#info h1.title span.pretty").text();
+	const title = $("#info h1.title span.pretty").text().replace(/^\[.{1,16}\] /, "");
 	const fileName = artist + title;
 
 	return [pages, pageCount, fileName];
@@ -38,6 +38,5 @@ function downloadChapter(pages, pageCount) {
 		const imageUrl = pages.eq(page).children().eq(0).children().eq(0).attr("data-src").replace("t.", "i.").replace("t.", ".");
 		promises.push(downloadImage(imageUrl).catch(console.log));
 	}
-
 	return promises;
 }
