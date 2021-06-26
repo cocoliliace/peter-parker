@@ -7,13 +7,13 @@ module.exports = async outputDirectory => {
 	if (!fs.existsSync(`${ outputDirectory }/temp`)) return;
 
 	const doc = await PDFDocument.load(fs.readFileSync(`${ outputDirectory }/temp.pdf`));
-	const lines = fs.readFileSync(`${ outputDirectory }/temp`).split("\n");
+	const lines = fs.readFileSync(`${ outputDirectory }/temp`).toString().trim().split("\n");
 
 	let rejectedUrls = "";
 	let promises = [];
 	for (let i = 0; i < lines.length; i++) {
 		const [page, url] = lines[i].split(" ");
-		promises.push(downloadImage(url).then(buffer => updatePage(doc, buffer, page))
+		promises.push(downloadImage(url).then(buffer => updatePage(doc, buffer, parseInt(page) - 1))
 			.catch(() => rejectedUrls += lines[i] + "\n"));
 	}
 

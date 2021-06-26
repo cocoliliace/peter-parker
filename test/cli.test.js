@@ -1,6 +1,7 @@
 const fs = require("fs");
+const cli = require("../bin/index.js");
 const { outputDirectory, executablePath } = require("../config.json");
-const cli = require("../bin/cli.js");
+const testFile = fs.readFileSync("./test/files/[Mameojitan] Knospenmädchen.pdf");
 
 const log = console.log;
 beforeEach(() => console.log = jest.fn());
@@ -69,12 +70,24 @@ test("change executable path", async () => {
 	await cli(["node", "file", "config", `-e=${ executablePath }`]);
 });
 
-test("download", async () => {
+test("download in temp", async () => {
+	await cli(["node", "file", "config", `-o=${ process.cwd() }/temp`]);
 	await cli(["node", "file", "290487"]);
-	const outputRegex = new RegExp(`Saved "${ outputDirectory }/\\[Mameojitan\\] Knospenmädchen\\.pdf" in \\d+s!`);
+	const outputRegex = new RegExp(`Saved "${ process.cwd() }/temp/\\[Mameojitan\\] Knospenmädchen\\.pdf" in \\d+s!`);
 	expect(console.log.mock.calls[0][0]).toMatch(outputRegex);
-	fs.readFileSync(`${ outputDirectory }/[Mameojitan] Knospenmädchen.pdf`).equals(fs.readFileSync("./test/files/[Mameojitan] Knospenmädchen.pdf"));
-	fs.unlink(`${ outputDirectory }/[Mameojitan] Knospenmädchen.pdf`, error => {
+	fs.readFileSync(`${ process.cwd() }/temp/[Mameojitan] Knospenmädchen.pdf`).equals(testFile);
+	fs.unlink(`${ process.cwd() }/temp/[Mameojitan] Knospenmädchen.pdf`, error => {
+		if (error) throw error;
+	});
+});
+
+test("download here", async () => {
+	await cli(["node", "file", "config", "-o="]);
+	await cli(["node", "file", "290487"]);
+	const outputRegex = new RegExp(`Saved "${ process.cwd() }/\\[Mameojitan\\] Knospenmädchen\\.pdf" in \\d+s!`);
+	expect(console.log.mock.calls[0][0]).toMatch(outputRegex);
+	fs.readFileSync(`${ process.cwd() }/[Mameojitan] Knospenmädchen.pdf`).equals(testFile);
+	fs.unlink(`${ process.cwd() }/[Mameojitan] Knospenmädchen.pdf`, error => {
 		if (error) throw error;
 	});
 });

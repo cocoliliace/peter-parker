@@ -47,7 +47,8 @@
   },
   "scripts": {
     "lint": "npx eslint . --fix",
-    "test": "jest --config jest.config.js && codecov"
+    "test": "jest --config jest.config.js && codecov",
+    "testc": "jest --config jest.config.js"
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.10",

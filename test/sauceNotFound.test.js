@@ -16,9 +16,9 @@ test("hentai2read not found", () => {
 	return expect(sauce("https://hentai2read.com/doesnotexist/", config)).rejects.toBe("Sauce not found!");
 });
 
-test("hentaimimi not found", () => {
-	return expect(sauce("https://hentaimimi.com/view/0000000", config)).rejects.toBe("Sauce not found!");
-});
+//test("hentaimimi not found", () => {
+//	return expect(sauce("https://hentaimimi.com/view/0000000", config)).rejects.toBe("Sauce not found!");
+//});
 
 //test("imgur not found", () => {
 //	return expect(sauce("https://imgur.com/0000000", config)).rejects.toBe("Sauce not found!");
