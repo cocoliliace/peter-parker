@@ -31,5 +31,6 @@ async function cli(args) {
 		readline.clearLine(process.stdout, 0);
 		readline.cursorTo(process.stdout, 0);
 		console.log(error);
+		if (error === "Some pages failed to download") console.log("Run \"sauce\" again without any arguments when your internet is stable again to continue the download");
 	});
 }

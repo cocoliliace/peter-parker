@@ -23,13 +23,13 @@ test("nhentai no artist field no artist", async () => {
 test("kissmanga", async () => {
 	expect(await sauce("https://kissmanga.org/manga/manga-qg968289", config)).toBe("Prologue");
 	fs.readFileSync("./temp/Prologue/chapter-0.pdf").equals(fs.readFileSync("./test/files/Prologue/chapter-0.pdf"));
-});
+}, 10000);
 
 test("kissmanga folder exists", async () => {
-	if (!fs.existSync("./temp/A silent Greeting")) fs.mkdirSync("./temp/A Silent Greeting");
+	if (!fs.existsSync("./temp/A silent Greeting")) fs.mkdirSync("./temp/A Silent Greeting");
 	expect(await sauce("https://kissmanga.org/manga/manga-qo960771", config)).toBe("A Silent Greeting");
 	fs.readFileSync("./temp/A Silent Greeting/chapter-0.pdf").equals(fs.readFileSync("./test/files/A Silent Greeting/chapter-0.pdf"));
-});
+}, 10000);
 
 test("joyhentai", async () => {
 	expect(await sauce("https://joyhentai.com/detail/1220147o232052.html", config)).toBe("[TAKE-DAKE (yuuki)] Rakugaki Bon");
@@ -42,11 +42,11 @@ test("9hentai", async () => {
 });
 
 test("e-hentai", async () => {
-	expect(await sauce("https://e-hentai.org/g/1941434/25dc3994e6/", config)).toBe("[Ankoman] Mash, Boggart ni Kioku Soushitsu Wakan NTR (Fate∕Grand Order)");
-	fs.readFileSync("./temp/[Ankoman] Mash, Boggart ni Kioku Soushitsu Wakan NTR (Fate∕Grand Order).pdf").equals(fs.readFileSync("./test/files/[Ankoman] Mash, Boggart ni Kioku Soushitsu Wakan NTR (Fate∕Grand Order).pdf"));
-});
+	expect(await sauce("https://e-hentai.org/g/1940559/e525317a7b/", config)).toBe("[Nita GUILTY] ManNori Manga (Inazuma Eleven: Ares no Tenbin)");
+	fs.readFileSync("./temp/[Nita GUILTY] ManNori Manga (Inazuma Eleven: Ares no Tenbin).pdf").equals(fs.readFileSync("./test/files/[Nita GUILTY] ManNori Manga (Inazuma Eleven: Ares no Tenbin).pdf"));
+}, 10000);
 
 test("hentai2read", async () => {
 	expect(await sauce("https://hentai2read.com/a_train_named_vengeance", config)).toBe("[Combat Ecchu] A Train Named Vengeance");
 	fs.readFileSync("./temp/[Combat Ecchu] A Train Named Vengeance.pdf").equals(fs.readFileSync("./test/files/[Combat Ecchu] A Train Named Vengeance.pdf"));
-});
+}, 10000);

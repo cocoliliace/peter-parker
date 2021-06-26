@@ -47,7 +47,7 @@
   },
   "scripts": {
     "lint": "npx eslint . --fix",
-    "test": "jest --config jest.config.js && codecov",
+    "test": "jest --config jest.config.js && codecov --disable=gcov",
     "testc": "jest --config jest.config.js"
   },
   "dependencies": {

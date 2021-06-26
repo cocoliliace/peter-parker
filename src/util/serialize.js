@@ -9,7 +9,7 @@ module.exports = async (data, fileName, outputDirectory, doc) => {
 		fs.writeFileSync(`${ outputDirectory }/temp.pdf`, await doc.save());
 		readline.clearLine(process.stdout, 0);
 		readline.cursorTo(process.stdout, 0);
-		throw "Some pages failed to download. Please run \"sauce\" again without any arguments when your internet is stable again";
+		return Promise.reject("Some pages failed to download");
 	} else {
 		fs.writeFileSync(`${ outputDirectory }/${ fileName }.pdf`, await doc.save());
 	}
