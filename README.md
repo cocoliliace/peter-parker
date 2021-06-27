@@ -21,7 +21,6 @@ sauce https://kissmanga.org/manga/tq922018
 ```
 
 ### In code
-UPDATE: Currently unstable. Use with caution and check back in a few days
 ```js
 const sauce = require("@chingchang9/peter-parker");
 
