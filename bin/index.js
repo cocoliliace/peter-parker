@@ -16,8 +16,17 @@ async function cli(args) {
 	}
 
 	require("fs").access(config.outputDirectory, 2, error => {
-		if (error?.code === "ENOENT") return console.log("The output directory doesn't exist");
-		else if (error) return console.log("The output directory is read-only");
+		if (error?.code === "ENOENT") {
+			readline.clearLine(process.stdout, 0);
+			readline.cursorTo(process.stdout, 0);
+			console.log("The output directory doesn't exist");
+			process.exit(1);
+		} else if (error) {
+			readline.clearLine(process.stdout, 0);
+			readline.cursorTo(process.stdout, 0);
+			console.log("The output directory is read-only");
+			process.exit(1);
+		}
 	});
 
 	const readline = require("readline");

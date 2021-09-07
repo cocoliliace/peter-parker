@@ -25,7 +25,7 @@ async function getInfo(url) {
 
 async function getBaseUrl(url) {
 	const $ = await getPage(url).catch(error => { throw error; });
-	return $("#arf-reader").attr("src").replace(/001\..+$/, "");
+	return $("#arf-reader").attr("src").replace(/static\.\w+\.\w+/, "static.hentaicdn.com").replace(/001\..+$/, "");
 }
 
 function downloadChapter(baseUrl, pageCount) {
