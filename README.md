@@ -1,6 +1,6 @@
 # Peter Parker
 [![npm version](https://img.shields.io/npm/v/@chingchang9/peter-parker)](https://www.npmjs.com/package/@chingchang9/peter-parker)
-[![npm total downloads](https://img.shields.io/npm/dw/@chingchang9/peter-parker)](https://www.npmjs.com/package/@chingchang9/peter-parker)
+[![npm total downloads](https://img.shields.io/npm/dm/@chingchang9/peter-parker)](https://www.npmjs.com/package/@chingchang9/peter-parker)
 [![Codecov coverage](https://img.shields.io/codecov/c/github/ChingChang9/peter-parker)](https://codecov.io/gh/ChingChang9/peter-parker)
 ![david dependencies](https://img.shields.io/david/ChingChang9/peter-parker)
 [![code size](https://img.shields.io/github/languages/code-size/ChingChang9/peter-parker)](https://github.com/ChingChang9/peter-parker)

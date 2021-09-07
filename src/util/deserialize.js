@@ -6,7 +6,7 @@ const downloadImage = require("./downloadImage.js");
 module.exports = async outputDirectory => {
 	if (!fs.existsSync(`${ outputDirectory }/temp`)) return;
 
-	const doc = await PDFDocument.load(fs.readFileSync(`${ outputDirectory }/temp.pdf`));
+	const doc = await PDFDocument.load(fs.readFileSync(`${ outputDirectory }/temp.pdf`), { updateMetadata: false });
 	const lines = fs.readFileSync(`${ outputDirectory }/temp`).toString().trim().split("\n");
 
 	let rejectedUrls = "";

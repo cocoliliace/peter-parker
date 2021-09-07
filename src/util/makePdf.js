@@ -18,7 +18,7 @@ module.exports = async (promises, fileName, outputDirectory, source) => {
 };
 
 async function initPdf(fileName, source) {
-	const doc = await PDFDocument.create();
+	const doc = await PDFDocument.create({ updateMetadata: false });
 	doc.setTitle(fileName.replace(/\[(.+)\] /, ""));
 	doc.setAuthor(fileName.match(/\[(.+)\]/)?.[1] || "");
 	doc.setSubject(source);

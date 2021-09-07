@@ -16,7 +16,7 @@ test("downloadImage 403", async () => {
 
 test("serialize", async () => {
 	const data = "1 https://i.nhentai.net/galleries/1930269/1.jpg\n3 https://i.nhentai.net/galleries/1930269/3.jpg";
-	const doc = await PDFDocument.load(fs.readFileSync("./test/files/temp.pdf"));
+	const doc = await PDFDocument.load(fs.readFileSync("./test/files/temp.pdf"), { updateMetadata: false });
 	expect(await serialize(data, "[Cloud Flake] Rena, Jibaku", "./temp", doc).catch(error => error)).toBe("Some pages failed to download");
 	fs.readFileSync("./temp/temp").equals(fs.readFileSync("./test/files/temp"));
 	fs.readFileSync("./temp/temp.pdf").equals(fs.readFileSync("./test/files/temp.pdf"));
