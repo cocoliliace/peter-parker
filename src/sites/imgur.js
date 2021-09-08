@@ -4,8 +4,13 @@ const downloadImage = require("../util/downloadImage.js");
 module.exports = async (url, executablePath) => {
 	const browser = await puppeteer.launch({ executablePath });
 	const page = await browser.newPage();
+	await page.setViewport({
+		width: 1200,
+		height: 99999
+	});
 	await page.goto(url);
 	await page.click(".btn-wall--yes").catch(() => {});
+	await page.click("button.loadMore").catch(() => {});
 	return await Promise.all([
 		page.title().then(title => {
 			if (title === "Imgur: The magic of the Internet") throw "Sauce not found!";
