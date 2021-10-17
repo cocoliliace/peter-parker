@@ -75,10 +75,11 @@ test("download in temp", async () => {
 	await cli([null, null, "290487"]);
 	const outputRegex = new RegExp(`Saved "${ process.cwd() }/temp/\\[Mameojitan\\] Knospenmädchen\\.pdf" in \\d+s!`);
 	expect(console.log.mock.calls[0][0]).toMatch(outputRegex);
-	fs.readFileSync(`${ process.cwd() }/temp/[Mameojitan] Knospenmädchen.pdf`).equals(testFile);
+	expect(fs.readFileSync(`${ process.cwd() }/temp/[Mameojitan] Knospenmädchen.pdf`)).toEqual(testFile);
 	fs.unlink(`${ process.cwd() }/temp/[Mameojitan] Knospenmädchen.pdf`, error => {
 		if (error) throw error;
 	});
+	await cli([null, null, "config", `-o=${ outputDirectory }`]);
 });
 
 test("download here", async () => {
@@ -86,7 +87,7 @@ test("download here", async () => {
 	await cli([null, null, "290487"]);
 	const outputRegex = new RegExp(`Saved "${ process.cwd() }/\\[Mameojitan\\] Knospenmädchen\\.pdf" in \\d+s!`);
 	expect(console.log.mock.calls[0][0]).toMatch(outputRegex);
-	fs.readFileSync(`${ process.cwd() }/[Mameojitan] Knospenmädchen.pdf`).equals(testFile);
+	expect(fs.readFileSync(`${ process.cwd() }/[Mameojitan] Knospenmädchen.pdf`)).toEqual(testFile);
 	fs.unlink(`${ process.cwd() }/[Mameojitan] Knospenmädchen.pdf`, error => {
 		if (error) throw error;
 	});

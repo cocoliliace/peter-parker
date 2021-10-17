@@ -1,6 +1,6 @@
 {
   "name": "@chingchang9/peter-parker",
-  "version": "5.0.5",
+  "version": "5.0.6",
   "description": "With great power comes great hentai",
   "keywords": [
     "hentai",
@@ -53,14 +53,14 @@
   },
   "dependencies": {
     "cheerio": "^1.0.0-rc.10",
-    "pdf-lib": "^1.16.0",
-    "puppeteer-core": "^10.2.0",
+    "pdf-lib": "^1.17.0",
+    "puppeteer-core": "^10.4.0",
     "sharp": "^0.29.1",
-    "user-agents": "^1.0.768"
+    "user-agents": "^1.0.806"
   },
   "devDependencies": {
     "codecov": "^3.8.3",
-    "eslint": "^7.32.0",
-    "jest": "^27.1.0"
+    "eslint": "^8.0.1",
+    "jest": "^27.2.5"
   }
 }

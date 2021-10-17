@@ -9,12 +9,12 @@ module.exports = async (promises, fileName, outputDirectory, source) => {
 	let rejectedUrls = "";
 	for (let i = 0; i < promises.length; i++) {
 		await addPage(doc, await promises[i].catch(imageUrl => { // eslint-disable-line no-await-in-loop
-			rejectedUrls += `${ i } ${ imageUrl }\n`;
+			rejectedUrls += `${ i + 1 } ${ imageUrl }\n`;
 			return blankBuffer;
 		})).catch(error => { throw error; });
 	}
 
-	await serialize(rejectedUrls, fileName, outputDirectory, doc).catch(error => error);
+	await serialize(rejectedUrls, fileName, outputDirectory, doc).catch(error => { throw error; });
 };
 
 async function initPdf(fileName, source) {
