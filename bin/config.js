@@ -1,8 +1,8 @@
 const fs = require("fs");
 
 const keys = {
-	outputDirectory: ["--outputdirectory", "--output", "-o"],
-	executablePath: ["--executablepath", "--execpath", "-e"],
+  outputDirectory: ["--outputdirectory", "--output", "-o"],
+  executablePath: ["--executablepath", "--execpath", "-e"],
   help: ["--help", "-h"]
 };
 
@@ -28,23 +28,23 @@ module.exports = async (config, args) => {
 };
 
 function resolveKey(key) {
-	key = key.toLowerCase();
-	if (keys.outputDirectory.includes(key)) {
-		return "outputDirectory";
-	} else if (keys.executablePath.includes(key)) {
-		return "executablePath";
-	} else {
-		console.log("Invalid key");
-		process.exit(1);
-	}
+  key = key.toLowerCase();
+  if (keys.outputDirectory.includes(key)) {
+    return "outputDirectory";
+  } else if (keys.executablePath.includes(key)) {
+    return "executablePath";
+  } else {
+    console.log("Invalid key");
+    process.exit(1);
+  }
 }
 
 function saveConfig(config) {
-	return new Promise((resolve, reject) => {
-		fs.writeFile(`${ __dirname }/../config.json`, JSON.stringify(config, null, "  "), error => {
-			error ? reject(error) : resolve();
-		});
-	});
+  return new Promise((resolve, reject) => {
+    fs.writeFile(`${__dirname}/../config.json`, JSON.stringify(config, null, "  "), error => {
+      error ? reject(error) : resolve();
+    });
+  });
 }
 
 function parseOptions(config, args) {

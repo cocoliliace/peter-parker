@@ -14,6 +14,7 @@
     "linebreak-style": ["error", "unix"],
     "quotes": ["error", "double"],
     "semi": ["error", "always"],
+    "template-curly-spacing": ["error"],
     "require-await": ["error"],
     "no-unused-vars": ["error", {"args": "all"}],
     "no-await-in-loop": ["error"],
