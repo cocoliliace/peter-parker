@@ -4,7 +4,7 @@ const serialize = require("./serialize.js");
 const downloadImage = require("./downloadImage.js");
 
 module.exports = async outputDirectory => {
-	if (!fs.existsSync(`${ outputDirectory }/temp`)) return;
+	if (!fs.lstatSync(`${ outputDirectory }/temp`).isFile()) return;
 
 	const doc = await PDFDocument.load(fs.readFileSync(`${ outputDirectory }/temp.pdf`), { updateMetadata: false });
 	const lines = fs.readFileSync(`${ outputDirectory }/temp`).toString().trim().split("\n");

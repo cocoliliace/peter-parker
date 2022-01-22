@@ -1,8 +1,8 @@
-const puppeteer = require("puppeteer-core");
 const downloadImage = require("../util/downloadImage.js");
 
 module.exports = async (url, executablePath) => {
-	const browser = await puppeteer.launch({ executablePath });
+  const browser = executablePath ? require("puppeteer-core").launch({ executablePath })
+                                 : require("puppeteer").launch();
 	const page = await browser.newPage();
 	await page.setViewport({
 		width: 1200,

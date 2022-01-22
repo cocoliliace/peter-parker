@@ -22,11 +22,11 @@ test("hentai2read not found", () => {
 
 //test("imgur not found", () => {
 //	return expect(sauce("https://imgur.com/0000000", config)).rejects.toBe("Sauce not found!");
-//}, 30000);
+//});
 
-test("joyhentai not found", () => {
-	return expect(sauce("https://joyhentai.com/detail/0000000o000000.html", config)).rejects.toMatch("Sauce not found!");
-});
+//test("joyhentai not found", () => {
+//	return expect(sauce("https://joyhentai.com/detail/0000000o000000.html", config)).rejects.toMatch("Sauce not found!");
+//});
 
 test("kissmanga not found", () => {
 	return expect(sauce("https://kissmanga.org/manga/doesnotexist", config)).rejects.toBe("Sauce not found!");

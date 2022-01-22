@@ -6,6 +6,8 @@ const makePdf = require("../src/util/makePdf.js");
 const getPage = require("../src/util/getPage.js");
 const downloadImage = require("../src/util/downloadImage.js");
 
+const mockExit = jest.spyOn(process, "exit").mockImplementation(() => {});
+
 test("getPage 302", async () => {
 	expect(await getPage("https://nhentai.net/g/177013").catch(error => error)).toBe("Error 301: Moved Permanently");
 });
@@ -26,7 +28,6 @@ test("serialize", async () => {
 });
 
 test("deserialize", async () => {
-	const mockExit = jest.spyOn(process, "exit").mockImplementation(() => {});
 	await deserialize("./temp");
 	// expect(fs.readFileSync("./temp/[Cloud Flake] Rena, Jibaku.pdf")).toEqual(fs.readFileSync("./test/files/[Cloud Flake] Rena, Jibaku.pdf")); Currently untestable. Need to manually check
 	expect(mockExit).toHaveBeenCalledWith(0);

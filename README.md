@@ -1,9 +1,9 @@
 # Peter Parker
 [![npm version](https://img.shields.io/npm/v/@chingchang9/peter-parker)](https://www.npmjs.com/package/@chingchang9/peter-parker)
-[![npm total downloads](https://img.shields.io/npm/dm/@chingchang9/peter-parker)](https://www.npmjs.com/package/@chingchang9/peter-parker)
+[![npm monthly downloads](https://img.shields.io/npm/dm/@chingchang9/peter-parker)](https://www.npmjs.com/package/@chingchang9/peter-parker)
 [![Codecov coverage](https://img.shields.io/codecov/c/github/ChingChang9/peter-parker)](https://codecov.io/gh/ChingChang9/peter-parker)
-![david dependencies](https://img.shields.io/david/ChingChang9/peter-parker)
 [![code size](https://img.shields.io/github/languages/code-size/ChingChang9/peter-parker)](https://github.com/ChingChang9/peter-parker)
+[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
 
 With great power comes great hentai! Peter Parker is a powerful and lightweight
 hentai downloader that offers speed, simplicity, and versatility!
@@ -30,22 +30,6 @@ sauce("177013", {
 ```
 Peter Parker supports way more sites, [listed below with their input format](#supported-sites).
 
-## What's new in v5.0.0
-#### Breaking changes
-- `outputFolderPath` has been renamed to `outputDirectory`
-- Config variables now need the `--` prefix. [Check out their aliases in the
-  documentation](#sauce-config---outputDirectory)
-  - For example, `sauce config --executablePath` to get the `executablePath`
-    variable, and `sauce config --outputDirectory=""` to set `outputDirectory`
-    to `""`
-#### Behaviour changes
-- `outputFolderPath` is no longer a required field. When unspecified,
-  peter-parker downloads to the same directory as where the command is run
-- peter-parker now checks the existence and permission to write on the output
-  directory before fetching any pages
-#### Bug fixes
-- Deserialization should work properly now
-
 ## Installation
 ```bash
 npm install -g @chingchang9/peter-parker
@@ -54,82 +38,57 @@ sauce config -o=/your/folder/path # if you want to download to a specific folder
 
 #### The remaining of the installation is only necessary if you will be downloading from imgur.com
 - #### I have Chrome or Chromium installed
-	Set the executable path to your local path.
-	It defaults to a typical MacOS' path, so if you are on MacOS, you can likely
-	skip this step.
+  ```sh
+  npm install puppeteer-core@13
+  ```
+  Then you need to write the path of your Chrome executable to Peter Parker's
+  config.
+  It defaults to a typical MacOS' path, so if you are on MacOS, you are likely
+  already done.
 
-	If you are getting errors, or are not on MacOS, you can first check your
-	executable path by typing `chrome://version` in the address bar of your
-	Chrome/Chromium, then set it with `sauce config e=/your/executable/path`.
-	Check out [this StackOverflow post if you need more help getting finding your
-	executable path](https://stackoverflow.com/questions/17736215/universal-path-to-chrome-exe).
+  If you are getting errors, or are not on MacOS, you can first check your
+  executable path by typing `chrome://version` in the address bar of your
+  Chrome, then set the config with
+  ```sh
+  sauce config -e=/your/executable/path
+  ```
+  Check out [this StackOverflow post](https://stackoverflow.com/questions/17736215/universal-path-to-chrome-exe)
+  if you need more help finding your executable path.
 
 - #### I do NOT have Chrome or Chromium installed
-	**UPDATE: This process is a bit complicated and an alternative method will be coming soon. In the mean time please feel free to [give me suggestions of how it should be done](https://github.com/ChingChang9/peter-parker/issues), or [implement it yourself](https://github.com/ChingChang9/peter-parker/pulls).**
-
-	Go into the source code of peter-parker and run the following commands
-	```bash
-	npm uninstall puppeteer-core
-	npm install puppeteer
-	```
-	then change the first line of `./src/sites/imgur.js` to
-	```js
-	const puppeteer = require("puppeteer");
-	```
-	Finally, change line 5 of the same file to
-	```js
-	const browser = await puppeteer.launch();
-	```
+  Go to the directory where Peter Parker is installed and run the following
+  commands
+  ```bash
+  npm install puppeteer@13
+  sauce config -e=
+  ```
 
 ## Documentation
-### Using in command line
-##### `sauce <url>` where `<url>` is a valid url
-- Download the hentai at that url
-- The hentai gets downloaded to the current directory, unless `outputDirectory`
-  is set
-- If you receive "Invalid input!", check that the url is in one of the [input
-  formats specified under the supported sites](#supported-sites)
+##### <code>sauce <_url_> [_option_ \<_value_\>]</code>
+- Downloads the hentai at that url
+- You may receive "Invalid input!" if the url is not from a [supported site](#supported-sites)
+
+##### <code>sauce config [_option_][=_value_]</code>
+- Sets the specified option to the specified value if `=` is present, or outputs
+  the current value of the specified option otherwise
+  - This value will be used as the default value for all future downloads
+- Outputs the path of the config file if neither option nor value is present
+
+##### Options
+| Option (case insensitive) | What it is | Default value |
+|:-------------------------:|:----------:|:-------------:|
+| `--output`, `-o`, `--outputDirectory` | The location to save the hentai. Saves to the working directory if left empty | `""`
+| `--execPath`, `-e`, `--executablePath` | The path to your Chrome/Chromium executable (only necessary if you are downloading from imgur) | `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`
 
 ##### `sauce`
 - Sometimes a page might fail to download due to bad internet. When this
-  happens, peter-parker creates the pdf without that page, and a temp file
+  happens, Peter Parker creates the pdf without that page, and a `temp` file
   storing the pages that failed. Running `sauce` without any arguments checks
-  for the temp file and continues the download from where you left off
+  for the `temp` file and continues the download from where you left off
 - Running this command when there is no temp file would terminate the program
   with a "No sauce given!" message
 - If you would like to start on a new download and abort the failed download,
-  you must delete the temp file, located in your specified output folder
-
-##### `sauce config`
-- Get the path of the config file. You should not be editing this file manually.
-  See the commands below for how to edit it
-
-##### `sauce config --outputDirectory`
-- Get the value of `outputDirectory` in config
-- **Default**: If no value is specified, all hentai get downloaded to the
-  directory where the command is run
-- **Aliases**: `--output`, and `-o`. Case insensitive
-
-##### `sauce config --outputDirectory=/your/folder/path`
-- Set the value of `outputDirectory` in config
-- Set this to `""` if you want to download to wherever the command is run
-- **Aliases**: Same as above
-
-##### `sauce config --executablePath`
-- Get the value of `executablePath` in config
-- You need to set this to the path of your Chrome/Chromium executable only if
-  you are downloading from imgur.com
-- **Default**: `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`
-- **Aliases**: `--executablePath`, `--execPath`, and `-e`. Case insensitive
-
-##### `sauce config --executablePath=/your/executable/path`
-- Set the value of `executablePath` in config
-- Only required if you are downloading from imgur.com
-- **Aliases**: Same as above
-
-### Using in code
-Documentation in progress! In the mean time, you can [reach out to me](https://github.com/ChingChang9/peter-parker/discussions)
-for specific questions :)
+  you must delete the `temp` file, located in your specified output folder
 
 ## Supported sites
 SITE | INPUT FORMAT

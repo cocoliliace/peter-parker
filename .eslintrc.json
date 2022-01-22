@@ -10,7 +10,7 @@
   },
   "ignorePatterns": ["test/*.js"],
   "rules": {
-    "indent": ["error", "tab", {"SwitchCase": 1, "flatTernaryExpressions": true}],
+    "indent": ["error", 2, {"SwitchCase": 1, "flatTernaryExpressions": true}],
     "linebreak-style": ["error", "unix"],
     "quotes": ["error", "double"],
     "semi": ["error", "always"],

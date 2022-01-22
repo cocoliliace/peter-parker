@@ -31,10 +31,10 @@ test("kissmanga folder exists", async () => {
 	expect(fs.readFileSync("./temp/A Silent Greeting/chapter-0.pdf")).toEqual(fs.readFileSync("./test/files/A Silent Greeting/chapter-0.pdf"));
 }, 10000);
 
-test("joyhentai", async () => {
-	expect(await sauce("https://joyhentai.com/detail/1220147o232052.html", config)).toBe("[TAKE-DAKE (yuuki)] Rakugaki Bon");
-	expect(fs.readFileSync("./temp/[TAKE-DAKE (yuuki)] Rakugaki Bon.pdf")).toEqual(fs.readFileSync("./test/files/[TAKE-DAKE (yuuki)] Rakugaki Bon.pdf"));
-});
+//test("joyhentai", async () => {
+//	expect(await sauce("https://joyhentai.com/detail/1220147o232052.html", config)).toBe("[TAKE-DAKE (yuuki)] Rakugaki Bon");
+//	expect(fs.readFileSync("./temp/[TAKE-DAKE (yuuki)] Rakugaki Bon.pdf")).toEqual(fs.readFileSync("./test/files/[TAKE-DAKE (yuuki)] Rakugaki Bon.pdf"));
+//});
 
 test("9hentai", async () => {
 	expect(await sauce("https://9hentai.to/g/70905/", config)).toBe("[Marushamo] Namaiki JK squeezes everything");

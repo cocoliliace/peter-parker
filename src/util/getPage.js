@@ -1,6 +1,5 @@
 const https = require("https");
 const readline = require("readline");
-const UserAgent = require("user-agents");
 const cheerio = require("cheerio");
 
 module.exports = url => {
@@ -10,9 +9,6 @@ module.exports = url => {
 		process.stdout.write("Fetching page...");
 		const client = https.request(url, {
 			method: "GET",
-			headers: {
-				"User-Agent": new UserAgent({ deviceCategory: "desktop" }).toString()
-			}
 		}, response => {
 			if (response.statusCode === 200 || response.statusCode === 204) {
 				let chunks = [];

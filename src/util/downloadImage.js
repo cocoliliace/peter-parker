@@ -1,5 +1,4 @@
 const https = require("https");
-const UserAgent = require("user-agents");
 
 module.exports = downloadImage;
 
@@ -7,9 +6,6 @@ function downloadImage(imageUrl) {
 	return new Promise((resolve, reject) => {
 		const client = https.request(imageUrl, {
 			method: "GET",
-			headers: {
-				"User-Agent": new UserAgent({ deviceCategory: "desktop" }).toString()
-			}
 		}, response => {
 			if (response.statusCode === 200 || response.statusCode === 204) {
 				let data = [];

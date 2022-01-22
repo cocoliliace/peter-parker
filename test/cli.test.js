@@ -7,6 +7,8 @@ const log = console.log;
 beforeEach(() => console.log = jest.fn());
 afterAll(() => console.log = log);
 
+const mockExit = jest.spyOn(process, "exit").mockImplementation(() => {});
+
 test("no sauce given", async () => {
 	await cli([null, null]);
 	expect(console.log).toHaveBeenCalledWith("No sauce given!");
@@ -15,6 +17,12 @@ test("no sauce given", async () => {
 test("invalid input", async () => {
 	await cli([null, null, "abc"]);
 	expect(console.log).toHaveBeenCalledWith("Invalid input");
+	await cli([null, null, "config", `-o=${ outputDirectory }`]);
+});
+
+test("help", () => {
+	cli([null, null, "-h"]);
+	expect(console.log).toHaveBeenCalledWith("Help menu coming soon. Read README.md in the mean time :)");
 });
 
 test("config path", () => {
@@ -23,7 +31,6 @@ test("config path", () => {
 });
 
 test("invalid key", () => {
-	const mockExit = jest.spyOn(process, "exit").mockImplementation(() => {});
 	cli([null, null, "config", "d"]);
 	expect(console.log).toHaveBeenCalledWith("Invalid key");
 	expect(mockExit).toHaveBeenCalledWith(1);
@@ -89,6 +96,18 @@ test("download here", async () => {
 	expect(console.log.mock.calls[0][0]).toMatch(outputRegex);
 	expect(fs.readFileSync(`${ process.cwd() }/[Mameojitan] Knospenmädchen.pdf`)).toEqual(testFile);
 	fs.unlink(`${ process.cwd() }/[Mameojitan] Knospenmädchen.pdf`, error => {
+		if (error) throw error;
+	});
+	await cli([null, null, "config", `-o=${ outputDirectory }`]);
+});
+
+test("download at output", async () => {
+	await cli([null, null, "config", "-o="]);
+	await cli([null, null, "290487", "-o", `${ process.cwd() }/temp`]);
+	const outputRegex = new RegExp(`Saved "${ process.cwd() }/temp/\\[Mameojitan\\] Knospenmädchen\\.pdf" in \\d+s!`);
+	expect(console.log.mock.calls[0][0]).toMatch(outputRegex);
+	expect(fs.readFileSync(`${ process.cwd() }/temp/[Mameojitan] Knospenmädchen.pdf`)).toEqual(testFile);
+	fs.unlink(`${ process.cwd() }/temp/[Mameojitan] Knospenmädchen.pdf`, error => {
 		if (error) throw error;
 	});
 	await cli([null, null, "config", `-o=${ outputDirectory }`]);
