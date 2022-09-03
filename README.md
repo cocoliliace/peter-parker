@@ -28,7 +28,7 @@ sauce("177013", {
     outputDirectory: "./myFolder"
 }).then(title => console.log(`Downloaded ${ title }`)); // Downloaded [ShindoLA] METAMORPHOSIS
 ```
-Peter Parker supports way more sites, [listed below with their input format](#supported-sites).
+Peter Parker supports way more sites, [listed below with their input formats](#supported-sites).
 
 ## Installation
 ```bash
@@ -68,7 +68,7 @@ sauce config -o=/your/folder/path # if you want to download to a specific folder
 - Downloads the hentai at that url
 - You may receive "Invalid input!" if the url is not from a [supported site](#supported-sites)
 
-##### <code>sauce config [_option_][=_value_]</code>
+##### <code>sauce config [_option_[=_value_]]</code>
 - Sets the specified option to the specified value if `=` is present, or outputs
   the current value of the specified option otherwise
   - This value will be used as the default value for all future downloads
