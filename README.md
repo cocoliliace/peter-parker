@@ -39,7 +39,7 @@ sauce config -o=/your/folder/path # if you want to download to a specific folder
 #### The remaining of the installation is only necessary if you will be downloading from imgur.com
 - #### I have Chrome or Chromium installed
   ```sh
-  npm install puppeteer-core@13
+  yarn add puppeteer-core@13
   ```
   Then you need to write the path of your Chrome executable to Peter Parker's
   config.
@@ -59,7 +59,7 @@ sauce config -o=/your/folder/path # if you want to download to a specific folder
   Go to the directory where Peter Parker is installed and run the following
   commands
   ```bash
-  npm install puppeteer@13
+  yarn add puppeteer@13
   sauce config -e=
   ```
 
