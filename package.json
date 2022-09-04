@@ -51,6 +51,7 @@
     "test": "jest --config jest.config.js"
   },
   "dependencies": {
+    "better-sqlite3": "^7.6.2",
     "cheerio": "^1.0.0-rc.12",
     "pdf-lib": "^1.17.1",
     "puppeteer-core": "^17.1.0",

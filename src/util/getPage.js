@@ -2,13 +2,14 @@ const https = require("https");
 const readline = require("readline");
 const cheerio = require("cheerio");
 
-module.exports = url => {
+module.exports = (url, headers = {}) => {
   return new Promise((resolve, reject) => {
     readline.clearLine(process.stdout, 0);
     readline.cursorTo(process.stdout, 0);
     process.stdout.write("Fetching page...");
     const client = https.request(url, {
       method: "GET",
+      headers
     }, response => {
       if (response.statusCode === 200 || response.statusCode === 204) {
         let chunks = [];

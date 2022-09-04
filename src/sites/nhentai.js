@@ -1,5 +1,7 @@
 const getPage = require("../util/getPage");
-const downloadImage = require("../util/downloadImage.js");
+const downloadImage = require("../util/downloadImage");
+const getCookies = require("../util/getCookies");
+const { userAgent } = require("../../config.json");
 
 module.exports = async sauce => {
   const url = isNaN(sauce) ? `${sauce}/`.replace(/\/\/$/, "/") : `https://nhentai.net/g/${sauce}/`;
@@ -12,7 +14,10 @@ module.exports = async sauce => {
 };
 
 async function getInfo(url) {
-  const $ = await getPage(url).catch(error => { throw error; });
+  const $ = await getPage(url, {
+    "User-Agent": userAgent,
+    Cookie: getCookies("nhentai.net"),
+  }).catch(error => { throw error; });
 
   const pages = $(".thumbs").children();
 
