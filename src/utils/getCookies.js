@@ -1,6 +1,6 @@
 const Database = require("better-sqlite3");
 const fs = require("fs");
-const { cookiesPath } = require("../../config.json");
+const { cookiesPath } = require("#config");
 
 module.exports = host => {
   fs.copyFile(cookiesPath, "/dev/shm/tmp.sqlite", handleError);

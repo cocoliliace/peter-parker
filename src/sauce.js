@@ -1,20 +1,19 @@
-const makePdf = require("../src/util/makePdf.js");
-const displayProgress = require("../src/util/displayProgress.js");
-const formatFileName = require("../src/util/formatFileName.js");
+const makePdf = require("#utils/makePdf");
+const displayProgress = require("#utils/displayProgress");
+const formatFileName = require("#utils/formatFileName");
 
 module.exports = (sauce, config) => {
   return new Promise((resolve, reject) => {
-    Promise.resolve(
-      sauce.includes("9hentai") ? require("../src/sites/9hentai.js")(sauce) :
-      sauce.includes("e-hentai") ? require("../src/sites/e-hentai.js")(sauce) :
-      sauce.includes("hentai2read") ? require("../src/sites/hentai2read.js")(sauce) :
-      //sauce.includes("hentaimimi") ? require("../src/sites/hentaimimi.js")(sauce) :
-      sauce.includes("imgur") ? require("../src/sites/imgur.js")(sauce, config.executablePath) :
-      sauce.includes("joyhentai") ? require("../src/sites/joyhentai.js")(sauce) :
-      sauce.includes("kissmanga") ? require("../src/sites/kissmanga.js")(sauce, config.outputDirectory) :
-      sauce.includes("nhentai") || sauce.match(/^\d{1,6}$/) ? require("../src/sites/nhentai.js")(sauce) :
-      reject("Invalid input")
-    ).then(async ([promises, fileName, source]) => {
+    const site = sauce.includes("9hentai") ? require("#sites/9hentai") :
+      sauce.includes("e-hentai") ? require("#sites/e-hentai") :
+      sauce.includes("hentai2read") ? require("#sites/hentai2read") :
+      //sauce.includes("hentaimimi") ? require("#sites/hentaimimi") :
+      sauce.includes("imgur") ? require("#sites/imgur") :
+      sauce.includes("joyhentai") ? require("#sites/joyhentai") :
+      sauce.includes("kissmanga") ? require("#sites/kissmanga") :
+      sauce.includes("nhentai") || sauce.match(/^\d{1,6}$/) ? require("#sites/nhentai") :
+      reject("Invalid input");
+    Promise.resolve(site(sauce)).then(async ([promises, fileName, source]) => {
       fileName = formatFileName(fileName);
       if (promises) {
         displayProgress(promises);

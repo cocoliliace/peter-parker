@@ -1,6 +1,6 @@
 const fs = require("fs");
 const { PDFDocument } = require("pdf-lib");
-const serialize = require("./serialize.js");
+const serialize = require("#utils/serialize");
 const blankBuffer = Buffer.from(fs.readFileSync(`${__dirname}/../../static/blank.jpg`));
 
 module.exports = async (promises, fileName, outputDirectory, source) => {

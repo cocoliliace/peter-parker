@@ -1,6 +1,7 @@
-const downloadImage = require("../util/downloadImage.js");
+const downloadImage = require("#utils/downloadImage");
+const { executablePath } = require("#config");
 
-module.exports = async (url, executablePath) => {
+module.exports = async url => {
   const browser = executablePath ? await require("puppeteer-core").launch({ executablePath })
     : await require("puppeteer").launch();
   const page = await browser.newPage();

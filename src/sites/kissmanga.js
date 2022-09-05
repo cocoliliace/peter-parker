@@ -1,10 +1,11 @@
 const fs = require("fs");
-const getPage = require("../util/getPage");
-const downloadImage = require("../util/downloadImage.js");
-const displayProgress = require("../util/displayProgress.js");
-const makePdf = require("../util/makePdf.js");
+const getPage = require("#utils/getPage");
+const downloadImage = require("#utils/downloadImage");
+const displayProgress = require("#utils/displayProgress");
+const makePdf = require("#utils/makePdf");
+let { outputDirectory } = require("#config");
 
-module.exports = async (url, outputDirectory) => {
+module.exports = async url => {
   const [title, chapters] = await getInfo(url);
 
   outputDirectory += "/" + title;

@@ -28,7 +28,7 @@
     {
       "name": "Ching Chang",
       "email": "chingtheprogrammer@gmail.com",
-      "url": "https://www.chingchang.dev"
+      "url": "https://chingchang.dev"
     }
   ],
   "files": [
@@ -49,6 +49,13 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "jest --config jest.config.js"
+  },
+  "imports": {
+    "#bin/*": "./bin/*.js",
+    "#src/*": "./src/*.js",
+    "#sites/*": "./src/sites/*.js",
+    "#utils/*": "./src/utils/*.js",
+    "#config": "./config.json"
   },
   "dependencies": {
     "better-sqlite3": "^7.6.2",

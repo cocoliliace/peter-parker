@@ -1,5 +1,5 @@
-const getPage = require("../util/getPage");
-const downloadImage = require("../util/downloadImage.js");
+const getPage = require("#utils/getPage");
+const downloadImage = require("#utils/downloadImage");
 
 module.exports = async url => {
   const [baseUrl, fileName, pageCount] = await getInfo(url);

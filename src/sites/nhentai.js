@@ -1,7 +1,7 @@
-const getPage = require("../util/getPage");
-const downloadImage = require("../util/downloadImage");
-const getCookies = require("../util/getCookies");
-const { userAgent } = require("../../config.json");
+const getPage = require("#utils/getPage");
+const downloadImage = require("#utils/downloadImage");
+const getCookies = require("#utils/getCookies");
+const { userAgent } = require("#config");
 
 module.exports = async sauce => {
   const url = isNaN(sauce) ? `${sauce}/`.replace(/\/\/$/, "/") : `https://nhentai.net/g/${sauce}/`;

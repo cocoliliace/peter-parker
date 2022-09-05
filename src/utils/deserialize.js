@@ -1,7 +1,7 @@
 const fs = require("fs");
 const { PDFDocument } = require("pdf-lib");
-const serialize = require("./serialize.js");
-const downloadImage = require("./downloadImage.js");
+const serialize = require("#utils/serialize");
+const downloadImage = require("#utils/downloadImage");
 
 module.exports = async outputDirectory => {
   if (!fs.lstatSync(`${outputDirectory}/temp`).isFile()) return;
